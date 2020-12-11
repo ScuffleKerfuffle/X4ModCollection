@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <add sel="/equipmentmods/weapon">
+    <!-- This is based on the Egosoft surfaceelement mod. Unsure what all applies here. Top 3 bonus are in their mod. Rest are maybies based on other weapons. -->
+    <surfaceelement ware="mod_weapon_scufflekerfuffle_surfaceelement" quality="3" min="1.75" max="1.75">
+      <bonus chance="1.0" max="9">
+        <cooling min="2.0" max="2.0"/>
+        <rotationspeed min="3.0" max="3.0"/>
+        <lifetime min="2.0" max="2.0"/>
+        <sticktime min="2.0" max="2.0"/>
+        <reload min="2.0" max="2.0"/>
+        <damage min="1.5" max="1.5"/>
+        <chargetime min="0.25" max="0.25"/>
+        <beamlength min="1.5" max="1.5"/>
+        <speed min="1.5" max="1.5"/>
+      </bonus>
+    </surfaceelement>
+
+    <!-- This is based on the hyper miner mod from Egosoft. Unsure what all applies here. Theirs has damage, cooling, reload, and rotationspeed. -->
+    <mining ware="mod_weapon_scufflekerfuffle_mining" quality="3" min="10" max="10">
+      <bonus chance="1.0" max="9">
+        <cooling min="2.0" max="2.0"/>
+        <rotationspeed min="3.0" max="3.0"/>
+        <lifetime min="2.0" max="2.0"/>
+        <sticktime min="2.0" max="2.0"/>
+        <reload min="2.0" max="2.0"/>
+        <damage min="1.5" max="1.5"/>
+        <chargetime min="0.25" max="0.25"/>
+        <beamlength min="1.5" max="1.5"/>
+        <speed min="1.5" max="1.5"/>
+      </bonus>
+    </mining>
+
+    <!-- This is based on a mark 3 damage mod from Egosoft. They only combine a few properties, but hopefully that's just their internal rules and not hardcoded into the game. -->
+    <damage ware="mod_weapon_scufflekerfuffle_damage" quality="3" min="2" max="2">
+      <bonus chance="1.0" max="8">
+        <cooling min="2.0" max="2.0"/>
+        <rotationspeed min="3.0" max="3.0"/>
+        <lifetime min="2.0" max="2.0"/>
+        <sticktime min="2.0" max="2.0"/>
+        <reload min="2.0" max="2.0"/>
+        <chargetime min="0.25" max="0.25"/>
+        <beamlength min="1.5" max="1.5"/>
+        <speed min="1.5" max="1.5"/>
+      </bonus>
+    </damage>
+  </add>
+
+  <add sel="/equipmentmods/engine">
+    <travelthrust ware="mod_engine_scufflekerfuffle" quality="3" min="3" max="3">
+      <bonus chance="1.0" max="8">
+        <forwardthrust min="1.5" max="1.5"/>
+        <travelstartthrust min="2.0" max="2.0"/>
+        <travelattacktime min="0.1" max="0.1"/>
+        <travelchargetime min="0.01" max="0.01"/>
+        <travelreleasetime min="2.0" max="2.0"/>
+        <rotationthrust min="1.5" max="1.5"/>
+        <strafethrust min="1.5" max="1.5"/>
+        <boostthrust min="3" max="3"/>
+      </bonus>
+    </travelthrust>
+  </add>
+
+  <add sel="/equipmentmods/ship">
+    <mass ware="mod_ship_scufflekerfuffle" quality="3" min="0.1" max="0.1">
+      <bonus chance="1.0" max="6">
+        <maxhull min="1.5" max="1.5" weight="1"/>
+        <radarrange min="1.5" max="1.5" weight="1"/>
+        <countermeasurecapacity min="20" max="20" weight="1"/>
+        <deployablecapacity min="30" max="30" weight="1"/>
+        <missilecapacity min="30" max="30" weight="1"/>
+        <unitcapacity min="20" max="20" weight="1"/>
+      </bonus>
+    </mass>
+  </add>
+
+  <add sel="/equipmentmods/shield">
+    <capacity ware="mod_shield_scufflekerfuffle" quality="3" min="3.0" max="3.0">
+      <bonus chance="1.0" max="2">
+        <rechargerate min="4.0" max="4.0"/>
+        <rechargedelay min="0.1" max="0.1"/>
+      </bonus>
+    </capacity>
+  </add>
+</diff>

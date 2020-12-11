@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="ScuffleGodMode" xmlns:xsi="http://www.w3.org/2001/XMLschema-instance" xsi:noNamespaceschemaLocation="md.xsd">
+  <cues>
+    <cue name="ScuffleGodMode" instantiate="true" checkinterval="5000ms">
+      <actions>
+        <!-- Ships only. -->
+        <find_ship name="$ships" owner="faction.player" space="player.galaxy" multiple="true" />
+        <debug_text text="'Found %s ships.'.[$ships.count]" />
+        
+        <do_all exact="$ships.count" counter="$i">
+          <find_object_component name="$components" object="$ships.{$i}" class="class.destructible" multiple="true"/>
+          <do_all exact="$components.count" counter="$j">
+            <do_if value="$components.{$j} != null">
+              <restore_object object="$components.{$j}" hull="100" recursive="true" />
+              <set_object_min_hull object="$components.{$j}" exact="100"/>
+              <set_object_min_shield object="$components.{$j}" exact="100"/>
+            </do_if>
+          </do_all>
+          <restore_object object="$ships.{$i}" hull="100" recursive="true" />
+          <set_object_min_hull object="$ships.{$i}" exact="100"/>
+          <set_object_min_shield object="$ships.{$i}" exact="100"/>
+        </do_all>
+
+        <!-- Stations only. -->
+        <find_station name="$stations" owner="faction.player" space="player.galaxy" multiple="true" />
+        <debug_text text="'Found %s stations.'.[$stations.count]" />
+
+        <do_all exact="$stations.count" counter="$i">
+          <find_object_component name="$components" object="$stations.{$i}" class="class.destructible" multiple="true"/>
+          <do_all exact="$components.count" counter="$j">
+            <do_if value="$components.{$j} != null">
+              <restore_object object="$components.{$j}" hull="100" recursive="true" />
+              <set_object_min_hull object="$components.{$j}" exact="100"/>
+              <set_object_min_shield object="$components.{$j}" exact="100"/>
+            </do_if>
+          </do_all>
+          <restore_object object="$stations.{$i}" hull="100" recursive="true" />
+          <set_object_min_hull object="$stations.{$i}" exact="100"/>
+          <set_object_min_shield object="$stations.{$i}" exact="100"/>
+        </do_all>
+
+        <reset_cue cue="this" />
+      </actions>
+    </cue>
+  </cues>
+</mdscript>

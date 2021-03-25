@@ -4,7 +4,7 @@
     <cue name="ScuffleInit" instantiate="true">
       <conditions>
         <check_any>
-          <event_cue_signalled cue="md.Setup.GameStart" />
+          <event_cue_signalled cue="md.Setup.GameStart" />          
           <event_game_loaded/>
         </check_any>
       </conditions>
@@ -23,6 +23,28 @@
         <do_if value="ware.research_mod_shield_mk3.research.unlocked">
           <add_blueprints wares="ware.mod_shield_scufflekerfuffle" />
         </do_if>
+      </actions>      
+    </cue>
+    <cue name="ScuffleResearch" instantiate="true">
+      <conditions>
+        <event_player_production_finished research="true"/>
+      </conditions>
+      <actions>
+        <debug_text text="'Scuffle Mod Research_Completed Entered.'" />
+        <do_if value="event.param2 == ware.research_mod_engine_mk3">              
+          <add_blueprints wares="ware.mod_engine_scufflekerfuffle" />
+        </do_if>
+        <do_elseif value="event.param2 == ware.research_mod_shield_mk3">              
+          <add_blueprints wares="ware.mod_shield_scufflekerfuffle" />
+        </do_elseif>
+        <do_elseif value="event.param2 == ware.research_mod_weapon_mk3">              
+          <add_blueprints wares="ware.mod_weapon_scufflekerfuffle_surfaceelement" />
+          <add_blueprints wares="ware.mod_weapon_scufflekerfuffle_mining" />
+          <add_blueprints wares="ware.mod_weapon_scufflekerfuffle_damage" />
+        </do_elseif>
+        <do_elseif value="event.param2 == ware.research_mod_ship_mk3">              
+          <add_blueprints wares="ware.mod_ship_scufflekerfuffle" />
+        </do_elseif>
       </actions>
     </cue>
   </cues>

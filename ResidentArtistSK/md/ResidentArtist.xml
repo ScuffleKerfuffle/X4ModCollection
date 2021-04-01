@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="ResidentArtist" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="md.xsd">
+	<!-- Record keeping and interface to Lua helpers -->
+	<cues>
+		<!-- REQUIRES SirNukes LUA Loader API! https://github.com/bvbohnen/x4-projects/tree/master/extensions/sn_mod_support_apis -->
+
+		<!-- Tell the lua side that the game loaded. -->
+		<cue name="Reload_Listener" instantiate="true" namespace="this">
+			<conditions>
+				<check_any>
+					<event_game_loaded/>
+					<event_game_started/>
+				</check_any>
+			</conditions>
+			<actions>
+				<raise_lua_event name="'Lua_Loader.Signal'"/>
+			</actions>
+		</cue>
+		<!-- use the API to load the lua txt file -->
+		<cue name="Load_Lua_Files" instantiate="true">
+			<conditions>
+				<event_ui_triggered screen="'Lua_Loader'" control="'Ready'" />
+			</conditions>
+			<actions>
+				<raise_lua_event name="'Lua_Loader.Load'" param="'extensions.residentartistsk.residentartist_tech_lua'"/>
+			</actions>
+		</cue>
+		<!-- Convo menu
+		Event for when a conversation is started (object = actor (entity or
+		list containing context and template), param = conversation name,
+		param2 = conversation parameter)
+		-->
+		<cue name="Start" instantiate="true" namespace="this">
+			<conditions>
+				<check_all>
+					<check_any>
+						<event_conversation_started conversation="default" />
+						<event_conversation_returned_to_section section="default"/>
+					</check_any>
+					<check_value value=" @md.ResidentArtist.RA.$Pilot2Ship.{ event.object } and md.ResidentArtist.RA.$Pilot2Ship.{ event.object } == event.object.ship" />
+				</check_all>
+			</conditions>
+			<actions>
+				<add_player_choice_sub text="'Sell Me Paint Mods'" section="PaintSales"/>
+				<add_player_choice_sub text="'Paint Whole Fleet'" section="PaintAllQ"/>
+			</actions>
+			<cues>
+				<cue name="End" instantiate="false">
+					<conditions>
+						<event_conversation_finished/>
+					</conditions>
+					<actions>
+						<cancel_cue cue="Start"/>
+					</actions>
+				</cue>
+				<cue name="TopMenu" instantiate="false">
+					<conditions>
+						<check_any>
+							<event_conversation_next_section section="PaintAllQ"/>							
+						</check_any>
+					</conditions>
+					<actions>
+						<add_player_choice text="{1001,2821}" section="PaintConfirmed" choiceparam="'1'" comment="Confirm"/>
+						<add_player_choice_return text="{1002,20}" comment="Back"/>
+					</actions>
+				</cue>
+				<cue name="PaintConfirmed" instantiate="false">
+					<conditions>
+						<event_conversation_next_section section="PaintConfirmed"/>
+					</conditions>
+					<actions>
+						<signal_cue_instantly cue="md.ResidentArtist.PaintAll" param=" event.object.ship "/>
+					</actions>
+				</cue>
+				<!-- add paintmods to pilot's inventory, show sales menu -->
+				<cue name="SalesMenu" instantiate="false">
+					<conditions>
+						<event_conversation_next_section section="PaintSales"/>
+					</conditions>
+					<actions>
+						<set_value name="$price" exact="1Cr"/>
+						<create_list name="$pml"/>
+						<do_all exact="lookup.ware.count" counter="$i">
+							<do_if value=" lookup.ware.{ $i }.ispaintmod">
+								<append_to_list name="$pml" exact="[ lookup.ware.{ $i }, $price] "/>
+								<do_if value=" event.object.inventory.{ lookup.ware.{ $i } }.count le 1">
+									<add_inventory entity=" event.object " ware="lookup.ware.{ $i }" />
+								</do_if>
+							</do_if>
+						</do_all>
+						<debug_to_file name="'resart.log'" directory="'resart'" append="true" chance="md.ResidentArtist.RA.$DebugChance" text="'resart.PaintSales %1 paintmods '.[  $pml.count ]" />
+						<open_conversation_menu menu="InventoryTraderMenu" param="[0, 0, event.object, $pml]" param2="event.param3"/>
+						<remove_value name="$price"/>
+						<remove_value name="$pml"/>
+					</actions>
+				</cue>
+			</cues>
+		</cue>
+		<!-- Convo menu -->
+		<!-- paint all like me. param = ship with paint to use	-->
+		<cue name="PaintAll" instantiate="true">
+			<conditions>
+				<event_cue_signalled/>
+			</conditions>
+			<delay min="30ms" max="50ms"/>
+			<actions>
+				<!-- all player ships, except artist -->
+				<find_ship_by_true_owner groupname="$PShips" multiple="true" space="player.galaxy" faction="faction.player">
+					<match class="class.spacesuit" negate="true"/>
+				</find_ship_by_true_owner>
+				<remove_from_group group="$PShips" object=" event.param "/>
+				<debug_to_file name="'resart.log'" directory="'resart'" append="true" chance="md.ResidentArtist.RA.$DebugChance" text="'resart.PaintAll %1 like %2 '.[ $PShips.count, event.param.idcode ]" />
+				<!-- do the paint -->
+				<raise_lua_event name="'resart_setPaintSource'" param=" event.param " />
+				<do_all exact="$PShips.count" counter="$i">
+					<raise_lua_event name="'resart_setPaint'" param="$PShips.{ $i }" />
+				</do_all>
+				<remove_value name="$PShips"/>
+			</actions>
+		</cue>
+		<!-- ResidentArtist variables -->
+		<cue name="RA" namespace="this" version="2">
+			<conditions>
+				<event_cue_signalled cue="md.Setup.Start" />
+			</conditions>
+			<actions>
+				<set_value name="$DebugChance" exact="0" />
+				<!-- "groups are magic" -->
+				<create_group groupname="$Ships" />
+				<create_group groupname="$Yards" />
+				<set_value name="$Ship2Yard" exact="table[]"/>
+				<set_value name="$Yard2Ship" exact="table[]"/>
+				<set_value name="$Pilot2Ship" exact="table[]"/>
+				<!-- tuck away the whole parameter pack -->
+				<set_value name="$ShipVar" exact="table[]"/>
+			</actions>
+			<patch sinceversion="1" state="complete">
+				<set_value name="$Pilot2Ship" exact="table[]"/>
+				<do_all exact="$Ships.count" counter="$i">
+					<set_value name="$lship" exact="$Ships.{ $i }"/>
+					<set_value name="$Pilot2Ship.{ $lship.pilot }" exact="$lship"/>
+					<set_value name="$spack" exact="$ShipVar.{ $lship }"/>
+					<set_value name="$spack.{ '$origname' }" exact="$lship.knownname" />
+				</do_all>
+				<remove_value name="$lship"/>
+				<set_value name="$DebugChance" exact="0" />
+			</patch>
+			<cues>
+				<!-- sign a ship up to be artist at yard -->
+				<cue name="Signup" instantiate="true">
+					<conditions>
+						<event_object_signalled object="player.galaxy" param="'residentartist_signup'" />
+					</conditions>
+					<delay min="30ms" max="500ms"/>
+					<actions>
+						<set_value name="$spack" exact="event.param2" />
+						<debug_to_file name="'resart.log'" directory="'resart'" append="true" chance="RA.$DebugChance" text="'resart.Signup: %1 '.[ $spack ]" />
+						<!-- evict existing if any -->
+						<set_value name="$lyard" exact="$spack.{'$home'}" />
+						<do_if value="@RA.$Yard2Ship.{$lyard}">
+							<set_value name="$oldship" exact="RA.$Yard2Ship.{$lyard}" />
+							<cancel_order order="$oldship.defaultorder"/>
+							<remove_value name="$oldship"/>
+						</do_if>
+						<!-- rename -->
+						<set_value name="$lship" exact="$spack.{'$ship'}" />
+						<set_value name="$spack.{ '$origname' }" exact="$lship.knownname" />
+						<do_if value="$lyard.owner == $lship.owner">
+							<set_value name="$nameA" exact="'X formerly %s'.[$lship.knownname]"/>
+						</do_if>
+						<do_else>
+							<set_value name="$nameA" exact="'X of %s (formerly %s)'.[$lyard.knownname, $lship.knownname]"/>
+						</do_else>
+						<set_object_name object="$lship" name="$nameA"/>
+						<!-- tracking data -->
+						<add_to_group groupname="RA.$Ships" object="$spack.{'$ship'}" />
+						<add_to_group groupname="RA.$Yards" object="$spack.{'$home'}" />
+						<set_value name="RA.$Ship2Yard.{ $spack.{'$ship'} }" exact="$spack.{'$home'}"/>
+						<set_value name="RA.$Yard2Ship.{ $spack.{'$home'} }" exact="$spack.{'$ship'}"/>
+						<set_value name="RA.$Pilot2Ship.{ $spack.{'$ship'}.pilot }" exact="$spack.{ '$ship' }"/>
+						<set_value name="RA.$ShipVar.{ $spack.{'$ship'} }" exact="$spack"/>
+						<remove_value name="$nameA"/>
+						<remove_value name="$lyard"/>
+						<remove_value name="$lship"/>
+						<remove_value name="$spack"/>
+					</actions>
+				</cue>
+				<!-- take a ship off the artist assistance program
+					 event.param = ship currently arting
+					 - it could have been destroyed to get here
+					 <check_value value="event.param.exists"/>
+				-->
+				<cue name="SignOut" instantiate="true">
+					<conditions>
+						<event_cue_signalled/>
+					</conditions>
+					<delay min="10ms" max="15ms"/>
+					<actions>
+						<set_value name="$lship" exact="event.param"/>
+						<set_value name="$spack" exact="RA.$ShipVar.{ $lship }"/>
+						<set_value name="$lyard" exact="RA.$Ship2Yard.{ $lship }"/>
+						<set_value name="$origname" exact="$spack.{ '$origname' }"/>
+						<debug_to_file name="'resart.log'" directory="'resart'" append="true" chance="RA.$DebugChance" text="'resart.SignOut: %1 %2 '.[ $lship.idcode, $spack ]" />
+						<remove_from_group group="RA.$Ships" object="$lship"/>
+						<remove_from_group group="RA.$Yards" object="$lyard"/>
+						<remove_value name="RA.$Ship2Yard.{ $lship }" />
+						<remove_value name="RA.$Yard2Ship.{ $lyard }" />
+						<remove_value name="RA.$Pilot2Ship.{ $lship.pilot }" />
+						<remove_value name="RA.$ShipVar.{ $lship } " />
+						<do_if value="$lship.commander == $lyard">
+							<remove_object_commander object="$lship"/>
+						</do_if>
+						<clear_object_name object="$lship"/>
+						<set_object_name object="$lship" name="$origname"/>
+						<remove_value name="$origname" />
+						<remove_value name="$spack" />
+						<remove_value name="$lyard" />
+						<remove_value name="$lship" />
+					</actions>
+				</cue>
+				<!-- watch yards for new ships -->
+				<cue name="ShipBuilt" instantiate="true">
+					<conditions>
+						<event_build_finished group="RA.$Yards" />
+						<!-- 
+						Event for when a build related to the object finishes 
+						(object = buildprocessor/buildmodule/buildingobject/buildingobjectcommander/buildobject, 
+						 param = buildprocessor, param2 = unused, param3 = buildtask)
+						-->
+						<check_value value="event.param3.buildobject.isclass.ship and event.param3.buildobject.owner == faction.player" />
+					</conditions>
+					<delay min="30ms" max="500ms"/>
+					<actions>
+						<set_value name="$newship" exact="event.param3.buildobject" />
+						<set_value name="$lship" exact="RA.$Yard2Ship.{ event.object }"/>
+						<set_value name="$spack" exact="RA.$ShipVar.{ $lship }"/>
+						<debug_to_file name="'resart.log'" directory="'resart'" append="true" chance="RA.$DebugChance" text="'resart.ShipBuilt %1 builtat %2 artist %3  '.[ event.object.idcode, $newship.idcode, $lship.idcode ]" />
+						<!-- conditions on who we paint? -->
+						<set_value name="$dopaint" exact="true"/>
+						<do_if value="$dopaint">
+							<raise_lua_event name="'resart_setPaintSource'" param="$lship" />
+							<raise_lua_event name="'resart_setPaint'" param="$newship" />
+							<debug_to_file name="'resart.log'" directory="'resart'" append="true" chance="RA.$DebugChance" text="'resart.SBpaint %1 '.[ $newship.idcode ]" />
+						</do_if>
+						<remove_value name="$spack"/>
+						<remove_value name="$newship"/>
+						<remove_value name="$lship"/>
+					</actions>
+				</cue>
+				<!-- watch for artist ship died or order cancels -->
+				<cue name="OrderDone" instantiate="true">
+					<conditions>
+						<check_any>
+							<event_object_order_cancelled group="RA.$Ships" immediate="true"/>
+							<!-- 
+							Event for when the a running AI order is cancelled 
+							(object	= the order's owner object, param = order, param2 = true
+							if the order is not in the critical state and is
+							cancelled immediately).  
+							NOTE: If param2 is true then the
+							order (event.param) was already cancelled and was either
+							reset or does not exist any more.
+							-->
+						</check_any>
+					</conditions>
+					<actions>
+						<signal_cue_instantly cue="SignOut" param=" event.object " />
+					</actions>
+				</cue>
+				<cue name="ShipDied" instantiate="true">
+					<conditions>
+						<event_object_destroyed group="RA.$Ships" />
+						<!-- 
+						Event for the specified object being destroyed 
+						(object = destroyed object, param = killer, param2 = kill method,
+						param3 = was parent killed)
+						-->
+					</conditions>
+					<actions>
+						<signal_cue_instantly cue="SignOut" param=" event.object " />
+					</actions>
+				</cue>
+			</cues>
+		</cue>
+	</cues>
+</mdscript>

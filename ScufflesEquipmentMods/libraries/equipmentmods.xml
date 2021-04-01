@@ -18,7 +18,7 @@
     </surfaceelement>
 
     <!-- This is based on the hyper miner mod from Egosoft. Unsure what all applies here. Theirs has damage, cooling, reload, and rotationspeed. -->
-    <mining ware="mod_weapon_scufflekerfuffle_mining" quality="3" min="10" max="10">
+    <mining ware="mod_weapon_scufflekerfuffle_mining" quality="3" min="10" max="10"> <!--min/max here dictates mining bonus. -->
       <bonus chance="1.0" max="9">
         <cooling min="2.0" max="2.0"/>
         <rotationspeed min="3.0" max="3.0"/>

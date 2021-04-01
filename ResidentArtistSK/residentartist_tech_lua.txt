@@ -1,0 +1,50 @@
+--[[   -*- mode: lua  -*-
+   
+   Helper to paint a ship with the same paintmod as an example ship
+
+   call from MDskirpt with:
+
+   <raise_lua_event name="'resart_setPaintSource'" param="$sourceShip" />
+   <raise_lua_event name="'resart_setPaint'" param="$targetShip" />
+
+   beacause (XSD) "raise_lua_event/param: Optional parameter. Has to
+   be a string, number or component."
+
+   and <add_paint_mod> is in the XSD but not in ScriptXML
+   
+]]
+local ffi = require("ffi")
+local C = ffi.C
+ffi.cdef[[
+
+	typedef uint64_t UniverseID;
+	typedef struct {
+		const char* Name;
+		const char* RawName;
+		const char* Ware;
+		uint32_t Quality;
+		uint32_t Amount;
+	} UIPaintMod;
+
+	bool GetInstalledPaintMod(UniverseID objectid, UIPaintMod* paintmod);
+	bool InstallPaintMod(UniverseID objectid, const char* wareid, bool useinventory);
+
+]]
+local private = {
+   fromship = '',
+}
+function Handle_SetPaintSource(fname, fromship)
+   -- DebugError( "resart_tech: setSource " ..tostring(fromship) )
+   private.fromship = fromship
+end
+function Handle_SetPaint(fname, toship)
+   local paintmod = ffi.new("UIPaintMod")
+   C.GetInstalledPaintMod( private.fromship , paintmod  )
+   -- DebugError( "resart_tech: set " ..tostring(private.fromship).."  "..ffi.string( paintmod.Name )..tostring(toship) )
+   C.InstallPaintMod( toship , paintmod.Ware, false )
+end
+function Init()
+    RegisterEvent("resart_setPaint", Handle_SetPaint)
+    RegisterEvent("resart_setPaintSource", Handle_SetPaintSource)
+end
+Init()

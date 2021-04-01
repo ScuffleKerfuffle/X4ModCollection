@@ -1,0 +1,79 @@
+--[[   -*- mode: lua  -*-
+   
+   Helper to paint a ship with the same paintmod as an example ship
+
+   call from MDskirpt with:
+
+   <raise_lua_event name="'resart_setPaintSource'" param="$sourceShip" />
+   <raise_lua_event name="'resart_setPaint'" param="$targetShip" />
+
+   beacause (XSD) "raise_lua_event/param: Optional parameter. Has to
+   be a string, number or component."
+
+   and <add_paint_mod> is in the XSD but not in ScriptXML
+   
+]]
+local ffi = require("ffi")
+local C = ffi.C
+ffi.cdef[[
+
+	typedef uint64_t UniverseID;
+	typedef struct {
+		const char* Name;
+		const char* RawName;
+		const char* Ware;
+		uint32_t Quality;
+		uint32_t Amount;
+	} UIPaintMod;
+
+	bool GetInstalledPaintMod(UniverseID objectid, UIPaintMod* paintmod);
+	bool InstallPaintMod(UniverseID objectid, const char* wareid, bool useinventory);
+
+]]
+local private = {
+   fromship = '',
+}
+function Handle_SetPaintSource(fname, fromship)
+   -- DebugError( "resart_tech: setSource " ..tostring(fromship) )
+   private.fromship = fromship
+end
+function Handle_SetPaint(fname, toship)
+   local paintmod = ffi.new("UIPaintMod")
+   C.GetInstalledPaintMod( ConvertStringTo64Bit( private.fromship ), paintmod  )
+   -- DebugError( "resart_tech: set " ..tostring(private.fromship).."  "..ffi.string( paintmod.Name )..tostring(toship) )
+   C.InstallPaintMod( ConvertStringTo64Bit( toship ), paintmod.Ware, false )
+end
+function Init()
+    RegisterEvent("resart_setPaint", Handle_SetPaint)
+    RegisterEvent("resart_setPaintSource", Handle_SetPaintSource)
+end
+Init()
+
+--[[
+ not used but may want later.  Returns the paintmod ware a ship is currently wearing.
+called from md with:
+
+   <raise_lua_event name="'resart_getPaint'" param="$someShip" />
+
+return val caught with a cue on
+
+   <event_ui_triggered screen="'resart_paint'" control="'ispaint'" />
+</conditons><actions>
+   <set_value name="$lship" exact="component.{event.param3.{1}}"/> 
+   <set_value name="$pware" exact="ware.{event.param3.{2}}"/>
+
+ $someShip will == $lship
+
+the component and ware "cast" to the md types from lua values this way
+
+function Handle_GetPaint(fname,fromship)
+   -- return [ ship, paintware ]
+   DebugError( "resart_tech: get "..tostring(fromship) )
+   local paintmod = ffi.new("UIPaintMod")
+   C.GetInstalledPaintMod( ConvertStringTo64Bit( fromship ), paintmod  )
+   DebugError( "resart_tech: get paint " .. ffi.string( paintmod.Name ) )
+   AddUITriggeredEvent("resart_paint", 'ispaint',  { ConvertStringTo64Bit(tostring(fromship)),  ffi.string(paintmod.Ware) } ) 
+
+end
+]]
+

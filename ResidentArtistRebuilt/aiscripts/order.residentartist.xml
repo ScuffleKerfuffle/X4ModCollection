@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<aiscript name="order.residentartist" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="aiscripts.xsd" priority="2" version="1">
+  <order id="ResidentArtist" name="Resident Artist" description="Paints ships when built" category="trade" infinite="true">
+    <params>
+
+      <param name="home" required="true" default="null" type="object" text="Home" comment="Home station">
+	<input_param name="class" value="[class.station]"/>
+	<!--input_param name="owner" value="this.object.owner"/-->
+      </param>
+
+      <param name="debugchance" type="bool" default="0" advanced="true" text="{1041, 10086}" comment="Print debug output">
+        <input_param name="truevalue" value="100"/>
+      </param>
+
+    </params>
+    <skill min="0"/> 
+
+    <requires>
+      <match shiptype="shiptype.lasertower" negate="true"/>
+    </requires>
+
+  </order>
+  <location object="$home" condition="$home.exists" />
+
+
+  <interrupts>
+    <handler ref="SectorChangeHandler"/>
+    <handler ref="AttackHandler" />
+    <handler ref="MissileLockHandler" />
+    <handler ref="ScannedHandler" />
+    <handler ref="InspectedHandler"/>
+    <handler ref="FoundAbandonedHandler"/>
+    <handler ref="FoundLockboxHandler"/>
+    <handler ref="ResupplyHandler" />
+    <handler ref="JobRemoveRequestHandler" />
+    <handler ref="TargetInvalidHandler"/>
+  </interrupts>
+  
+  <init>
+
+    
+    
+  </init>
+  
+  
+  <attention min="unknown">
+    <actions>
+
+      <debug_to_file name="'resart.log'" directory="'resart'" append="true" chance="$debugchance"
+		     text="'residentartist begun: %1 %2 '.[player.age, this.ship.idcode]" /> 
+
+      <set_value name="$pop" exact="false"/>
+      <!-- canbuild? -->
+      <do_if value="not $home.canbuildships">
+	<set_value name="$pop" exact="true"/>
+	<resume label="finish"/>
+      </do_if>
+      
+      
+      <!--  -->
+      <label name="prestart"/>
+
+      <set_value name="$sgpack"
+		 exact="table[
+			{'$ship'} = this.ship,
+			{'$home'} = $home,
+			]" />
+
+      <!-- sign up our service -->
+      <signal_objects object="player.galaxy" param="'residentartist_signup'" param2="$sgpack" />
+
+      <!-- set commander -->
+      <do_if value="$home.isclass.station and this.ship.commander != $home"> 
+        <do_if value="$home.owner == this.ship.owner">
+          <set_object_commander object="this.ship" commander="$home" />
+        </do_if>
+      </do_if>
+
+      
+      <!--  -->
+      <label name="start"/>
+      <set_order_syncpoint_reached order="this.ship.order" />
+
+
+      <!--  -->
+      <label name="gohome"/>
+
+      <do_if value="@this.assignedcontrolled.dock.container != $home ">
+	<run_script name="'order.dock'" object="this.assignedcontrolled" result="$docked" >
+          <param name="destination" value="$home"/>
+          <param name="trading" value="false" />
+	</run_script>
+      </do_if>
+      
+      
+      <!--  -->
+      <label name="wait"/>
+
+      <wait min="30s" max="180s"/>
+
+      <!--  -->
+      <label name="finish" />
+      <do_if value="not $pop">
+	<resume label="start"/>
+      </do_if>
+      <do_if value="$pop">
+	<cancel_order order="this.assignedcontrolled.defaultorder"/>
+      </do_if>
+
+    </actions>
+  </attention>
+</aiscript>
+

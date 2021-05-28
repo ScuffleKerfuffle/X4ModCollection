@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<content id="MineDefence Rebuilt" name="Anti-mine turret defence rebuilt" description="Turret 'Missile Defence' mode now includes hostile mines and attackers (missiles still take priority)" author="Scuffle Kerfuffle" version="103" date="2020-11-05" save="0" enabled="1">
-  <text language="7" name="Anti-mine turret defence rebuilt" description="Turret 'Missile Defence' mode now includes hostile mines and attackers (missiles still take priority)" author="Scuffle Kerfuffle"/>
-	<text language="33" name="Anti-mine turret defence rebuilt" description="Turret 'Missile Defence' mode now includes hostile mines and attackers (missiles still take priority)" author="Scuffle Kerfuffle"/>
-	<text language="34" name="Anti-mine turret defence rebuilt" description="Turret 'Missile Defence' mode now includes hostile mines and attackers (missiles still take priority)" author="Scuffle Kerfuffle"/>
-	<text language="39" name="Anti-mine turret defence rebuilt" description="Turret 'Missile Defence' mode now includes hostile mines and attackers (missiles still take priority)" author="Scuffle Kerfuffle"/>
- 	<text language="44" name="Anti-mine turret defence rebuilt" description="Turret 'Missile Defence' mode now includes hostile mines and attackers (missiles still take priority)" author="Scuffle Kerfuffle"/>
- 	<text language="49" name="Anti-mine turret defence rebuilt" description="Turret 'Missile Defence' mode now includes hostile mines and attackers (missiles still take priority)" author="Scuffle Kerfuffle"/>
- 	<text language="55" name="Anti-mine turret defence rebuilt" description="Turret 'Missile Defence' mode now includes hostile mines and attackers (missiles still take priority)" author="Scuffle Kerfuffle"/>
- 	<text language="81" name="Anti-mine turret defence rebuilt" description="Turret 'Missile Defence' mode now includes hostile mines and attackers (missiles still take priority)" author="Scuffle Kerfuffle"/>
- 	<text language="82" name="Anti-mine turret defence rebuilt" description="Turret 'Missile Defence' mode now includes hostile mines and attackers (missiles still take priority)" author="Scuffle Kerfuffle"/>
- 	<text language="86" name="Anti-mine turret defence rebuilt" description="Turret 'Missile Defence' mode now includes hostile mines and attackers (missiles still take priority)" author="Scuffle Kerfuffle"/>
- 	<text language="88" name="Anti-mine turret defence rebuilt" description="Turret 'Missile Defence' mode now includes hostile mines and attackers (missiles still take priority)" author="Scuffle Kerfuffle"/>
+<content id="MineDefence Rebuilt" name="Anti-mine turret defence rebuilt" description="Turret 'Attack All Enemies' mode now includes hostile mines." author="Scuffle Kerfuffle" version="401" date="2020-11-05" save="1" enabled="1">
+  <text language="7" name="Anti-mine turret defence rebuilt" description="Turret 'Attack All Enemies' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
+	<text language="33" name="Anti-mine turret defence rebuilt" description="Turret 'Attack All Enemies' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
+	<text language="34" name="Anti-mine turret defence rebuilt" description="Turret 'Attack All Enemies' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
+	<text language="39" name="Anti-mine turret defence rebuilt" description="Turret 'Attack All Enemies' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
+ 	<text language="44" name="Anti-mine turret defence rebuilt" description="Turret 'Attack All Enemies' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
+ 	<text language="49" name="Anti-mine turret defence rebuilt" description="Turret 'Attack All Enemies' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
+ 	<text language="55" name="Anti-mine turret defence rebuilt" description="Turret 'Attack All Enemies' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
+ 	<text language="81" name="Anti-mine turret defence rebuilt" description="Turret 'Attack All Enemies' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
+ 	<text language="82" name="Anti-mine turret defence rebuilt" description="Turret 'Attack All Enemies' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
+ 	<text language="86" name="Anti-mine turret defence rebuilt" description="Turret 'Attack All Enemies' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
+ 	<text language="88" name="Anti-mine turret defence rebuilt" description="Turret 'Attack All Enemies' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
 </content>

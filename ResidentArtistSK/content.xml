@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<content name="ResidentArtistSK" description="Resident Artist Updated" author="Scuffle Kerfuffle" version="001" date="2021-04-1" save="0">
-  <text language="7" name="ResidentArtistSK" description="Resident Artist Updated" author="Scuffle Kerfuffle"></text>
-  <text language="33" name="ResidentArtistSK" description="Resident Artist Updated" author="Scuffle Kerfuffle"></text>
-  <text language="34" name="ResidentArtistSK" description="Resident Artist Updated" author="Scuffle Kerfuffle"></text>
-  <text language="39" name="ResidentArtistSK" description="Resident Artist Updated" author="Scuffle Kerfuffle"></text>
-  <text language="44" name="ResidentArtistSK" description="Resident Artist Updated" author="Scuffle Kerfuffle"></text>
-  <text language="49" name="ResidentArtistSK" description="Resident Artist Updated" author="Scuffle Kerfuffle"></text>
-  <text language="86" name="ResidentArtistSK" description="Resident Artist Updated" author="Scuffle Kerfuffle"></text>
-  <text language="88" name="ResidentArtistSK" description="Resident Artist Updated" author="Scuffle Kerfuffle"></text>
+<content id="ResidentArtistSK" name="Resident Artist Updated" description="Allows a ship to be set to automatically paint new builds." author="Scuffle Kerfuffle" version="1.0" date="2021-04-1" save="0">
+  <text language="7" name="ResidentArtistSK" description="Allows a ship to be set to automatically paint new builds." author="Scuffle Kerfuffle"></text>
+  <text language="33" name="ResidentArtistSK" description="Allows a ship to be set to automatically paint new builds." author="Scuffle Kerfuffle"></text>
+  <text language="34" name="ResidentArtistSK" description="Allows a ship to be set to automatically paint new builds." author="Scuffle Kerfuffle"></text>
+  <text language="39" name="ResidentArtistSK" description="Allows a ship to be set to automatically paint new builds." author="Scuffle Kerfuffle"></text>
+  <text language="44" name="ResidentArtistSK" description="Allows a ship to be set to automatically paint new builds." author="Scuffle Kerfuffle"></text>
+  <text language="49" name="ResidentArtistSK" description="Allows a ship to be set to automatically paint new builds." author="Scuffle Kerfuffle"></text>
+  <text language="86" name="ResidentArtistSK" description="Allows a ship to be set to automatically paint new builds." author="Scuffle Kerfuffle"></text>
+  <text language="88" name="ResidentArtistSK" description="Allows a ship to be set to automatically paint new builds." author="Scuffle Kerfuffle"></text>
 </content>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mdscript name="SetupScuffleMods" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="md.xsd">
+  <cues>
+    <cue name="ScuffleInit" instantiate="true">
+      <conditions>
+        <check_any>
+          <event_cue_signalled cue="md.Setup.GameStart" />          
+          <event_game_loaded/>
+        </check_any>
+      </conditions>
+      <actions>
+          <add_blueprints wares="ware.mod_weapon_scufflekerfuffle_surfaceelement" />
+          <add_blueprints wares="ware.mod_weapon_scufflekerfuffle_mining" />
+          <add_blueprints wares="ware.mod_weapon_scufflekerfuffle_damage" />
+          <add_blueprints wares="ware.mod_engine_scufflekerfuffle" />
+          <add_blueprints wares="ware.mod_ship_scufflekerfuffle" />
+          <add_blueprints wares="ware.mod_shield_scufflekerfuffle" />        
+      </actions>      
+    </cue>
+  </cues>
+</mdscript>

@@ -1,55 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <add sel="//init/create_group[@groupname='$miningtargets']" pos="after">
+  <add sel="//init/create_group[@groupname='$miningtargets']" pos="after">    
     <create_group groupname="$minetargets"/>
   </add>
-  <!-- This will insert the clearing of the mine targets group directly after the other clear calls. -->
-  <add sel="/aiscript/attention[@min='visible']/actions//do_if[@value='@$allowothertargets or $turretmodes.indexof.{weaponmode.attackenemies} or ($defencedronemode == dronemode.attackenemies and this.assignedcontrolled.hasarmeddefencedrones)']/clear_table[@table='$table_targets']" pos="before">
-    <clear_group group="$minetargets"/>
-  </add>
-  <!-- This will insert the mine-detecting logic immediately after the existing find_gravidar_contact call. -->
-  <add sel="/aiscript/attention[@min='visible']/actions//do_if[@value='@$allowothertargets or $turretmodes.indexof.{weaponmode.attackenemies} or ($defencedronemode == dronemode.attackenemies and this.assignedcontrolled.hasarmeddefencedrones)']/do_if[@value='this.sector']/find_gravidar_contact[@groupname='$evaltargets']" pos="after">
-    <!-- Use a gravidar-restricted search to find all of the mines near the ship in question.
-         Note that due to some mines having NULL as an owner, this logic ignores the property maybeattackedby. -->
-    <find_gravidar_contact groupname="$minetargets" object="this.ship" class="class.mine" checkoperational="false" docked="false" multiple="true">
-      <match_context macro="this.sector.macro"/>
-      <match_distance object="this.ship" max="this.ship.maxradarrange"/>
-      <match class="class.buildstorage" negate="true"/>
-      <match state="componentstate.wreck" negate="true"/>
-    </find_gravidar_contact>
-    <!-- Remove any mines that are not a threat to this ship -->
-    <do_all exact="$minetargets.count" counter="$m" reverse="true">
-      <set_value name="$mine" exact="$minetargets.{$m}"/>
-      <!-- Remove friend/foe mines that are not targeting this ship and that do not list this ship's owning faction as an enemy. -->
-      <do_if value="($mine.isfriendfoe and not $mine.foelist.indexof.{this.ship.owner}) and not ($mine.target == this.ship)">
-        <!-- Adding some logging for player vessels only to keep track of how mines are removed from the list. -->
-        <do_if value="$minetargets.count and this.ship.isplayerowned">
-          <debug_to_file name="'minedefence.log'" directory="'minedefence'" append="true" chance="100"  text="'Mine Defence - Find Enemies - %s was a f/f mine not considered hostile to %s. Removing from target list.'.[$mine.knownname, this.ship.knownname]"/>
+
+  <replace sel="/aiscript//attention[@min='visible']//do_if[@value='$turretmodes.indexof.{weaponmode.attackenemies} or ($defencedronemode == dronemode.attackenemies and this.assignedcontrolled.hasarmeddefencedrones) or ($turretmodes.indexof.{weaponmode.mining} and this.ship == player.occupiedship) or ($turretmodes.indexof.{weaponmode.autoassist} and $autoassist_active?) or @$primarytarget.canbeattacked or @$targets.count']/@value">$turretmodes.indexof.{weaponmode.missiledefence} or $turretmodes.indexof.{weaponmode.attackenemies} or ($defencedronemode == dronemode.attackenemies and this.assignedcontrolled.hasarmeddefencedrones) or ($turretmodes.indexof.{weaponmode.mining} and this.ship == player.occupiedship) or ($turretmodes.indexof.{weaponmode.autoassist} and $autoassist_active?) or @$primarytarget.canbeattacked or @$targets.count</replace>
+
+  <add sel="/aiscript/attention[@min='visible']/actions/set_value[@name='$scantime']" pos="after">    
+    <do_if value="$turretmodes.indexof.{weaponmode.missiledefence}">      	  
+      <clear_group group="$minetargets"/>
+      <find_object groupname="$minetargets" class="class.mine" space="this.sector" multiple="true">
+        <match_distance object="this.ship" max="this.ship.maxcombatrange.{weaponmode.missiledefence}.turrets">
+          <match owner="this.ship.owner" negate="true" />
+        </match_distance>
+      </find_object>      
+      <do_all exact="$minetargets.count" counter="$m" reverse="true">            
+        <set_value name="$mine" exact="$minetargets.{$m}"/>
+        <do_if value="($mine.isfriendfoe and not $mine.foelist.indexof.{this.ship.owner})">
+          <remove_from_group group="$minetargets" object="$mine" />
         </do_if>
-        <remove_from_group group="$minetargets" object="$mine" />
-      </do_if>
-      <!-- Remove mines owned by the same faction as this ship, since they won't blow up on this ship. -->
-      <do_if value="$mine.owner == this.ship.owner">
-        <!-- Adding some logging for player vessels only to keep track of how mines are removed from the list. -->
-        <do_if value="$minetargets.count and this.ship.isplayerowned">
-          <debug_to_file name="'minedefence.log'" directory="'minedefence'" append="true" chance="100"  text="'Mine Defence - Find Enemies - %s was a f/f mine not considered hostile to %s. Removing from target list.'.[$mine.knownname, this.ship.knownname]"/>
-        </do_if>
-        <remove_from_group group="$minetargets" object="$mine" />
-      </do_if>
-      <!-- Clean up at the end of the loop so the next loop doesn't have problems. -->
-      <remove_value name="$mine" />
-    </do_all>
-    <!-- Adding some logging for player vessels only to determine how many mines were found. -->
-    <do_if value="$minetargets.count and this.ship.isplayerowned">
-      <debug_to_file name="'minedefence.log'" directory="'minedefence'" append="true" chance="100"  text="'Mine Defence - Find Enemies  - added %s mines to target list.'.[$minetargets.count]"/>
-      <debug_to_file name="'minedefence.log'" directory="'minedefence'" append="true" chance="100"  text="'Mine Defence - Find Enemies  - total eval targets before adding mines: %s.'.[$evaltargets.count]"/>
-	  </do_if>
-    <!-- Add the remaining mines to the list of targets to be evaluated. These will be evaluated by lib.target.selection.singletarget via the
-         AcquireTarget interrupt. -->
-    <add_to_group groupname="$evaltargets" group="$minetargets"/>
-    <!-- Adding some logging for player vessels only to determine how many mines were added. -->
-    <do_if value="$minetargets.count and this.ship.isplayerowned">
-      <debug_to_file name="'minedefence.log'" directory="'minedefence'" append="true" chance="100"  text="'Mine Defence - Find Enemies  - total eval targets after adding mines: %s.'.[$evaltargets.count]"/>
-	  </do_if>
+        <remove_value name="$mine" />
+      </do_all>
+    </do_if>
   </add>
+
+  <replace sel="/aiscript/attention[@min='visible']/actions//do_if[@value='$incomingmissiles.count and $turretmodes.indexof.{weaponmode.missiledefence}']/@value">($incomingmissiles.count or $minetargets.count or $attackers.count) and $turretmodes.indexof.{weaponmode.missiledefence}</replace>
+
+  <replace sel="/aiscript/attention[@min='visible']/actions//do_if[@value='($incomingmissiles.count or $minetargets.count or $attackers.count) and $turretmodes.indexof.{weaponmode.missiledefence}']">    
+    <create_group groupname="$scuffletargetlist"/>
+    <do_if value="$incomingmissiles.count">
+      <add_to_group groupname="$scuffletargetlist" group="$incomingmissiles"/>      
+    </do_if>
+    <do_elseif value="$minetargets.count">
+      <add_to_group groupname="$scuffletargetlist" group="$minetargets"/>      
+    </do_elseif>
+    <do_elseif value="$attackers.count">
+      <add_to_group groupname="$scuffletargetlist" group="$attackers"/>      
+    </do_elseif>
+    <do_if value="$scuffletargetlist.count">
+      <set_value name="$locpreferred" exact="$preferredtarget"/>
+        <do_if value="$locpreferred and not $scuffletargetlist.indexof.{$locpreferred}">
+          <set_value name="$locpreferred" exact="$scuffletargetlist.random"/>
+        </do_if>        
+      <set_turret_targets object="this.ship" target="$scuffletargetlist.list" weaponmode="weaponmode.missiledefence" preferredtarget="$locpreferred"/>
+    </do_if>
+    <clear_group group="$scuffletargetlist"/>
+  </replace>
+
+  <replace sel="/aiscript//attention[@min='visible']/actions//do_if[@value='this.ship.pilot and (@$targets.count or $dronetargets.count or ($miningtargets.count and this.ship == player.occupiedship))']/@value">this.ship.pilot and (@$targets.count or $dronetargets.count or ($miningtargets.count and this.ship == player.occupiedship) or ($turretmodes.indexof.{weaponmode.missiledefence} and (@$incomingmissiles.count or @$minetargets.count or $attackers.count)))</replace>
 </diff>

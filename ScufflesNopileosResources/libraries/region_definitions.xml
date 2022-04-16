@@ -64,10 +64,10 @@
         <nebula ref="fogpattern_v2_macro" localred="212" localgreen="225" localblue="176" localdensity="0.2075" uniformred="20" uniformgreen="21" uniformblue="17" uniformdensity="0.3" backgroundfog="false" resources="methane helium hydrogen" />
         <asteroid groupref="asteroid_highyield_v1" lodrule="asteroidxl" densityfactor="0.05" rotation="36" rotationvariation="4" noisescale="24000" seed="26041984" minnoisevalue="0.7" maxnoisevalue="1"/>
         <asteroid groupref="asteroid_highyield_sil_v1" lodrule="asteroidxl" densityfactor="0.05" rotation="36" rotationvariation="4" noisescale="24000" seed="26041984" minnoisevalue="0.7" maxnoisevalue="1"/>
-        <asteroid groupref="asteroid_ore_l" densityfactor="0.1" rotation="36" rotationvariation="4" noisescale="24000" seed="26041984" minnoisevalue="0.6" maxnoisevalue="1"/>
-        <asteroid groupref="asteroid_silicon_l" densityfactor="0.1" rotation="36" rotationvariation="4" noisescale="24000" seed="26041984" minnoisevalue="0.6" maxnoisevalue="1"/>
-        <asteroid groupref="asteroid_ice_l" densityfactor="0.1" rotation="36" rotationvariation="4" noisescale="35000" seed="26041984" minnoisevalue="0.05" maxnoisevalue="0.325"/>
-        <asteroid groupref="asteroid_ice_m" densityfactor="0.2" rotation="36" rotationvariation="8" noisescale="35000" seed="26041984" minnoisevalue="0.05" maxnoisevalue="0.325"/>
+        <asteroid groupref="asteroid_ore_l" densityfactor="1.0" rotation="36" rotationvariation="4" noisescale="24000" seed="26041984" minnoisevalue="0.6" maxnoisevalue="1"/>
+        <asteroid groupref="asteroid_silicon_l" densityfactor="1.0" rotation="36" rotationvariation="4" noisescale="24000" seed="26041984" minnoisevalue="0.6" maxnoisevalue="1"/>
+        <asteroid groupref="asteroid_ice_l" densityfactor="1.0" rotation="36" rotationvariation="4" noisescale="35000" seed="26041984" minnoisevalue="0.05" maxnoisevalue="0.325"/>
+        <asteroid groupref="asteroid_ice_m" densityfactor="1.0" rotation="36" rotationvariation="8" noisescale="35000" seed="26041984" minnoisevalue="0.05" maxnoisevalue="0.325"/>
       </fields>
       <resources>
         <resource ware="ore" yield="extreme" />
@@ -104,10 +104,10 @@
       <nebula ref="fogpattern_v2_macro" localred="212" localgreen="225" localblue="176" localdensity="0.075" uniformred="20" uniformgreen="21" uniformblue="17" uniformdensity="0.3" backgroundfog="false" resources="methane helium hydrogen" />
       <asteroid groupref="asteroid_highyield_v1" lodrule="asteroidxl" densityfactor="0.05" rotation="36" rotationvariation="4" noisescale="24000" seed="26041984" minnoisevalue="0.7" maxnoisevalue="1"/>
       <asteroid groupref="asteroid_highyield_sil_v1" lodrule="asteroidxl" densityfactor="0.05" rotation="36" rotationvariation="4" noisescale="24000" seed="26041984" minnoisevalue="0.7" maxnoisevalue="1"/>
-      <asteroid groupref="asteroid_ore_l" densityfactor="0.1" rotation="36" rotationvariation="4" noisescale="24000" seed="26041984" minnoisevalue="0.6" maxnoisevalue="1"/>
-      <asteroid groupref="asteroid_silicon_l" densityfactor="0.1" rotation="36" rotationvariation="4" noisescale="24000" seed="26041984" minnoisevalue="0.6" maxnoisevalue="1"/>
-      <asteroid groupref="asteroid_ice_l" densityfactor="0.1" rotation="36" rotationvariation="4" noisescale="35000" seed="26041984" minnoisevalue="0.05" maxnoisevalue="0.325"/>
-      <asteroid groupref="asteroid_ice_m" densityfactor="0.2" rotation="36" rotationvariation="8" noisescale="35000" seed="26041984" minnoisevalue="0.05" maxnoisevalue="0.325"/>
+      <asteroid groupref="asteroid_ore_l" densityfactor="1.0" rotation="36" rotationvariation="4" noisescale="24000" seed="26041984" minnoisevalue="0.6" maxnoisevalue="1"/>
+      <asteroid groupref="asteroid_silicon_l" densityfactor="1.0" rotation="36" rotationvariation="4" noisescale="24000" seed="26041984" minnoisevalue="0.6" maxnoisevalue="1"/>
+      <asteroid groupref="asteroid_ice_l" densityfactor="1.0" rotation="36" rotationvariation="4" noisescale="35000" seed="26041984" minnoisevalue="0.05" maxnoisevalue="0.325"/>
+      <asteroid groupref="asteroid_ice_m" densityfactor="1.0" rotation="36" rotationvariation="8" noisescale="35000" seed="26041984" minnoisevalue="0.05" maxnoisevalue="0.325"/>
     </fields>
     <resources>
       <resource ware="ore" yield="extreme" />

@@ -4,11 +4,11 @@
     <create_group groupname="$minetargets"/>
   </add>
   <!-- This will insert the clearing of the mine targets group directly after the other clear calls. -->
-  <add sel="/aiscript/attention[@min='visible']/actions//do_if[@value='@$allowothertargets or $turretmodes.indexof.{weaponmode.attackenemies} or ($defencedronemode == dronemode.attackenemies and this.assignedcontrolled.hasarmeddefencedrones)']/clear_table[@table='$table_targets']" pos="before">
+  <add sel="/aiscript/attention[@min='visible']/actions//do_if[@value='@$allowothertargets or $turretmodes.indexof.{weaponmode.attackenemies} or $turretmodes.indexof.{weaponmode.attackcapital} or $turretmodes.indexof.{weaponmode.attackfighters} or ($defencedronemode == dronemode.attackenemies and this.assignedcontrolled.hasarmeddefencedrones)']/clear_table[@table='$table_targets']" pos="before">
     <clear_group group="$minetargets"/>
   </add>
   <!-- This will insert the mine-detecting logic immediately after the existing find_gravidar_contact call. -->
-  <add sel="/aiscript/attention[@min='visible']/actions//do_if[@value='@$allowothertargets or $turretmodes.indexof.{weaponmode.attackenemies} or ($defencedronemode == dronemode.attackenemies and this.assignedcontrolled.hasarmeddefencedrones)']/do_if[@value='this.sector']/find_gravidar_contact[@groupname='$evaltargets']" pos="after">
+  <add sel="/aiscript/attention[@min='visible']/actions//do_if[@value='@$allowothertargets or $turretmodes.indexof.{weaponmode.attackenemies} or $turretmodes.indexof.{weaponmode.attackcapital} or $turretmodes.indexof.{weaponmode.attackfighters} or ($defencedronemode == dronemode.attackenemies and this.assignedcontrolled.hasarmeddefencedrones)']/do_if[@value='this.sector']/find_gravidar_contact[@groupname='$evaltargets']" pos="after">
     <!-- Use a gravidar-restricted search to find all of the mines near the ship in question.
          Note that due to some mines having NULL as an owner, this logic ignores the property maybeattackedby. -->
     <find_gravidar_contact groupname="$minetargets" object="this.ship" class="class.mine" checkoperational="false" docked="false" multiple="true">

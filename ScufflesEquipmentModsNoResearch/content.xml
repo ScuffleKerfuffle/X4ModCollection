@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
-<content id="ScuffleEquipmentMods" name="Scuffle's Equipment Mods" description="Adds easy-to-build and slightly overpowered mods to the game." author="Scuffle Kerfuffle" version="0.11" date="2020-05-09" save="0">
-  <text language="7" name="Модификации оборудования Scuffle" description="Добавляет в игру легкие в сборке и слегка перегруженные моды." author="Scuffle Kerfuffle" />
-  <text language="33" name="Modifications de l'équipement de Scuffle" description="Ajoute des mods faciles à construire et légèrement surpuissants au jeu." author="Scuffle Kerfuffle" />
-  <text language="34" name="Mods de equipo de Scuffle" description="Agrega modificaciones fáciles de construir y ligeramente dominadas al juego." author="Scuffle Kerfuffle" />
-  <text language="39" name="Modifiche alle apparecchiature di Scuffle" description="Aggiunge mod facili da costruire e leggermente potenziate al gioco." author="Scuffle Kerfuffle" />
-  <text language="44" name="Scuffle's Equipment Mods" description="Adds easy-to-build and slightly overpowered mods to the game." author="Scuffle Kerfuffle" />
-  <text language="49" name="Modifikationen der Ausrüstung von Scuffle" description="Fügt dem Spiel einfach zu bauende und leicht übermächtige Mods hinzu." author="Scuffle Kerfuffle" />
-  <text language="55" name="Mods de equipamento do Scuffle" description="Adiciona mods fáceis de construir e ligeiramente dominados ao jogo." author="Scuffle Kerfuffle"/>
-  <text language="81" name="シャッフルの装備変更" description="ビルドが簡単で、わずかに強力なモッドをゲームに追加します。" author="Scuffle Kerfuffle" />
-  <text language="82" name="Scuffle의 장비 개조" description="제작하기 쉽고 약간 강력해진 모드를 게임에 추가합니다." author="Scuffle Kerfuffle" />
-  <text language="86" name="Scuffle的设备修改" description="向游戏中添加易于构建且略微过大的mod。" author="Scuffle Kerfuffle" />
-  <text language="88" name="Scuffle的設備修改" description="向遊戲中添加易於構建且略微過大的mod。" author="Scuffle Kerfuffle" />
+<content id="ScuffleEquipmentModsNR" name="Scuffle's Equipment Mods - No Research" description="Adds easy-to-build and slightly overpowered mods to the game." author="Scuffle Kerfuffle" version="0.11" date="2020-05-09" save="0">
+  <text language="7" name="Модификации оборудования Scuffle - без исследований" description="Добавляет в игру легкие в сборке и слегка перегруженные моды." author="Scuffle Kerfuffle" />
+  <text language="33" name="Modifications de l'équipement de Scuffle - Pas des recherche" description="Ajoute des mods faciles à construire et légèrement surpuissants au jeu." author="Scuffle Kerfuffle" />
+  <text language="34" name="Modificaciones de equipo de Scuffle: sin investigación" description="Agrega modificaciones fáciles de construir y ligeramente dominadas al juego." author="Scuffle Kerfuffle" />
+  <text language="39" name="Modifiche dalle apparecchiature di Scuffle - Nessuna ricerca" description="Aggiunge mod facili da costruire e leggermente potenziate al gioco." author="Scuffle Kerfuffle" />
+  <text language="44" name="Scuffle's Equipment Mods - No Research" description="Adds easy-to-build and slightly overpowered mods to the game." author="Scuffle Kerfuffle" />
+  <text language="49" name="Modifikationen der Ausrüstung von Scuffle - Keine Forschung" description="Fügt dem Spiel einfach zu bauende und leicht übermächtige Mods hinzu." author="Scuffle Kerfuffle" />
+  <text language="55" name="Modificações de equipamento do Scuffle - sem estudo cientifico" description="Adiciona mods fáceis de construir e ligeiramente dominados ao jogo." author="Scuffle Kerfuffle"/>
+  <text language="81" name="Scuffleの機器のモッズ - 研究はありません" description="ビルドが簡単で、わずかに強力なモッドをゲームに追加します。" author="Scuffle Kerfuffle" />
+  <text language="82" name="Scuffle장비 수정 - 연구가 없습니다" description="제작하기 쉽고 약간 강력해진 모드를 게임에 추가합니다." author="Scuffle Kerfuffle" />
+  <text language="86" name="Scuffle的设备改造 - 没有研究" description="向游戏中添加易于构建且略微过大的mod。" author="Scuffle Kerfuffle" />
+  <text language="88" name="Scuffle的設備改造 - 沒有研究" description="向遊戲中添加易於構建且略微過大的mod。" author="Scuffle Kerfuffle" />
   <dependency id="SW Interworlds" optional="true" name="Star Wars Interworlds" />
 </content>

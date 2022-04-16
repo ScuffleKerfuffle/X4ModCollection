@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <diff>
   <add sel="/regionyields/resource[@ware='ore']/yield[@name='veryhigh']" pos="after">
-    <yield name="extreme" resourcedensity="25000" replenishtime="1200" scaneffectintensity="1.0" />
+    <yield name="extreme" resourcedensity="10000" replenishtime="120" scaneffectintensity="0.3" />
   </add>
   <add sel="/regionyields/resource[@ware='silicon']/yield[@name='veryhigh']" pos="after">
-    <yield name="extreme" resourcedensity="25000" replenishtime="1200" scaneffectintensity="1.0" />
+    <yield name="extreme" resourcedensity="10000" replenishtime="120" scaneffectintensity="0.3" />
   </add>
   <add sel="/regionyields/resource[@ware='ice']/yield[@name='high']" pos="after">
-    <yield name="extreme" resourcedensity="25000" replenishtime="1200" scaneffectintensity="1.0" />
+    <yield name="extreme" resourcedensity="10000" replenishtime="120" scaneffectintensity="0.3" />
   </add>
   <add sel="/regionyields/resource[@ware='hydrogen']/yield[@name='high']" pos="after">
-    <yield name="extreme"  resourcedensity="10000" replenishtime="1200" gatherspeedfactor="8.0" scaneffectintensity="0.3" />
+    <yield name="extreme"  resourcedensity="10000" replenishtime="120" gatherspeedfactor="8.0" scaneffectintensity="0.3" />
   </add>
   <add sel="/regionyields/resource[@ware='helium']/yield[@name='high']" pos="after">
-    <yield name="extreme"  resourcedensity="10000" replenishtime="1200" gatherspeedfactor="8.0" scaneffectintensity="0.3" />
+    <yield name="extreme"  resourcedensity="10000" replenishtime="120" gatherspeedfactor="8.0" scaneffectintensity="0.3" />
   </add>
   <add sel="/regionyields/resource[@ware='methane']/yield[@name='high']" pos="after">
-    <yield name="extreme"  resourcedensity="10000" replenishtime="1200" gatherspeedfactor="8.0" scaneffectintensity="0.3" />
+    <yield name="extreme"  resourcedensity="10000" replenishtime="120" gatherspeedfactor="8.0" scaneffectintensity="0.3" />
   </add>
 </diff>

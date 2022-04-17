@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<content id="ResidentArtistSK" name="Resident Artist Updated" description="Allows a ship to be set to automatically paint new builds." author="Scuffle Kerfuffle" version="1.0" date="2021-04-1" save="0">
+<content id="ResidentArtistSK" name="Resident Artist Updated" description="Allows a ship to be set to automatically paint new builds." author="Scuffle Kerfuffle" version="510" date="2022-04-17" save="0">
   <text language="7" name="ResidentArtistSK" description="Allows a ship to be set to automatically paint new builds." author="Scuffle Kerfuffle"></text>
   <text language="33" name="ResidentArtistSK" description="Allows a ship to be set to automatically paint new builds." author="Scuffle Kerfuffle"></text>
   <text language="34" name="ResidentArtistSK" description="Allows a ship to be set to automatically paint new builds." author="Scuffle Kerfuffle"></text>

@@ -22,7 +22,7 @@
 				<event_ui_triggered screen="'Lua_Loader'" control="'Ready'" />
 			</conditions>
 			<actions>
-				<raise_lua_event name="'Lua_Loader.Load'" param="'extensions.residentartistsk.residentartist_tech_lua'"/>
+				<raise_lua_event name="'Lua_Loader.Load'" param="'extensions.scufflesresidentartist.residentartist_tech_lua'"/>
 			</actions>
 		</cue>
 		<!-- Convo menu

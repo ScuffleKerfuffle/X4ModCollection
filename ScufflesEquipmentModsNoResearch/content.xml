@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<content id="ScuffleEquipmentModsNR" name="Scuffle's Equipment Mods - No Research" description="Adds easy-to-build and slightly overpowered mods to the game." author="Scuffle Kerfuffle" version="0.11" date="2020-05-09" save="0">
+<content id="ScuffleEquipmentModsNR" name="Scuffle's Equipment Mods - No Research" description="Adds easy-to-build and slightly overpowered mods to the game." author="Scuffle Kerfuffle" version="510" date="2022-04-17" save="0">
   <text language="7" name="Модификации оборудования Scuffle - без исследований" description="Добавляет в игру легкие в сборке и слегка перегруженные моды." author="Scuffle Kerfuffle" />
   <text language="33" name="Modifications de l'équipement de Scuffle - Pas des recherche" description="Ajoute des mods faciles à construire et légèrement surpuissants au jeu." author="Scuffle Kerfuffle" />
   <text language="34" name="Modificaciones de equipo de Scuffle: sin investigación" description="Agrega modificaciones fáciles de construir y ligeramente dominadas al juego." author="Scuffle Kerfuffle" />

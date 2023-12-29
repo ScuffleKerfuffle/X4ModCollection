@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<diff>
+  <!-- Nopileos' Fortune cluster. Updated sunlight to 700%, which beats even Mercury at 680% -->
+  <replace sel="/defaults/dataset[@macro='Cluster_04_macro']/properties/area">
+    <area sunlight="7" economy="0.5" security="0.5" factionlogic="false" />
+  </replace>
+</diff>

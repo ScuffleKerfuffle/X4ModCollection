@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<content id="ScuffleExplorerRebuilt" name="ScuffleExplorerRebuilt" description="Searches in the galaxy or an sector for jump gates or stations." author="ScuffleKerfuffle" version="100" date="2022-05-01" save="0" enabled="1">
+  <text language="7"  name="ScuffleExplorerRebuilt" description="Searches in the galaxy or an sector for jump gates or stations." author="ScuffleKerfuffle"/>
+  <text language="33" name="ScuffleExplorerRebuilt" description="Searches in the galaxy or an sector for jump gates or stations." author="ScuffleKerfuffle"/>
+  <text language="34" name="ScuffleExplorerRebuilt" description="Searches in the galaxy or an sector for jump gates or stations." author="ScuffleKerfuffle"/>
+  <text language="39" name="ScuffleExplorerRebuilt" description="Searches in the galaxy or an sector for jump gates or stations." author="ScuffleKerfuffle"/>
+  <text language="44" name="ScuffleExplorerRebuilt" description="Searches in the galaxy or an sector for jump gates or stations." author="ScuffleKerfuffle"/>
+  <text language="49" name="ScuffleExplorerRebuilt" description="Sucht in der Galaxie oder einem Sektor nach Sprungtoren oder Stationen." author="ScuffleKerfuffle"/>
+  <text language="55" name="ScuffleExplorerRebuilt" description="Searches in the galaxy or an sector for jump gates or stations." author="ScuffleKerfuffle"/>
+  <text language="81" name="ScuffleExplorerRebuilt" description="Searches in the galaxy or an sector for jump gates or stations." author="ScuffleKerfuffle"/>
+  <text language="82" name="ScuffleExplorerRebuilt" description="Searches in the galaxy or an sector for jump gates or stations." author="ScuffleKerfuffle"/>
+  <text language="86" name="ScuffleExplorerRebuilt" description="Searches in the galaxy or an sector for jump gates or stations." author="ScuffleKerfuffle"/>
+  <text language="88" name="ScuffleExplorerRebuilt" description="Searches in the galaxy or an sector for jump gates or stations." author="ScuffleKerfuffle"/>
+</content>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<content id="MineDefence Rebuilt" name="Anti-mine turret defence rebuilt - Missile Defence Mode" description="Turret 'Missile Defence' mode now includes hostile mines." author="Scuffle Kerfuffle" version="510M" date="2022-04-16" save="0" enabled="1">
-  <text language="7" name="Anti-mine turret defence rebuilt Missile Defence Mode" description="Turret 'Missile Defence' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
-	<text language="33" name="Anti-mine turret defence rebuilt - Missile Defence Mode" description="Turret 'Missile Defence' mode now includes hostile mines." author="Scuffle Kerfuffle"/>	
-	<text language="34" name="Anti-mine turret defence rebuilt - Missile Defence Mode" description="Turret 'Missile Defence' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
-	<text language="39" name="Anti-mine turret defence rebuilt - Missile Defence Mode" description="Turret 'Missile Defence' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
- 	<text language="44" name="Anti-mine turret defence rebuilt - Missile Defence Mode" description="Turret 'Missile Defence' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
- 	<text language="49" name="Anti-mine turret defence rebuilt - Missile Defence Mode" description="Turret 'Missile Defence' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
- 	<text language="55" name="Anti-mine turret defence rebuilt - Missile Defence Mode" description="Turret 'Missile Defence' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
- 	<text language="81" name="Anti-mine turret defence rebuilt - Missile Defence Mode" description="Turret 'Missile Defence' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
- 	<text language="82" name="Anti-mine turret defence rebuilt - Missile Defence Mode" description="Turret 'Missile Defence' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
- 	<text language="86" name="Anti-mine turret defence rebuilt - Missile Defence Mode" description="Turret 'Missile Defence' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
- 	<text language="88" name="Anti-mine turret defence rebuilt - Missile Defence Mode" description="Turret 'Missile Defence' mode now includes hostile mines." author="Scuffle Kerfuffle"/>	
+<content id="MineDefence Rebuilt" name="Anti-mine turret defence rebuilt - Shoot Missiles Only Mode" description="Turret 'Shoot Missiles Only' mode now includes hostile mines." author="Scuffle Kerfuffle" version="800MD" date="2025-10-22" save="0" enabled="1">
+  <text language="7" name="Anti-mine turret defence rebuilt Shoot Missiles Only Mode" description="Turret 'Shoot Missiles Only' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
+	<text language="33" name="Anti-mine turret defence rebuilt - Shoot Missiles Only Mode" description="Turret 'Shoot Missiles Only' mode now includes hostile mines." author="Scuffle Kerfuffle"/>	
+	<text language="34" name="Anti-mine turret defence rebuilt - Shoot Missiles Only Mode" description="Turret 'Shoot Missiles Only' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
+	<text language="39" name="Anti-mine turret defence rebuilt - Shoot Missiles Only Mode" description="Turret 'Shoot Missiles Only' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
+ 	<text language="44" name="Anti-mine turret defence rebuilt - Shoot Missiles Only Mode" description="Turret 'Shoot Missiles Only' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
+ 	<text language="49" name="Anti-mine turret defence rebuilt - Shoot Missiles Only Mode" description="Turret 'Shoot Missiles Only' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
+ 	<text language="55" name="Anti-mine turret defence rebuilt - Shoot Missiles Only Mode" description="Turret 'Shoot Missiles Only' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
+ 	<text language="81" name="Anti-mine turret defence rebuilt - Shoot Missiles Only Mode" description="Turret 'Shoot Missiles Only' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
+ 	<text language="82" name="Anti-mine turret defence rebuilt - Shoot Missiles Only Mode" description="Turret 'Shoot Missiles Only' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
+ 	<text language="86" name="Anti-mine turret defence rebuilt - Shoot Missiles Only Mode" description="Turret 'Shoot Missiles Only' mode now includes hostile mines." author="Scuffle Kerfuffle"/>
+ 	<text language="88" name="Anti-mine turret defence rebuilt - Shoot Missiles Only Mode" description="Turret 'Shoot Missiles Only' mode now includes hostile mines." author="Scuffle Kerfuffle"/>	
 </content>

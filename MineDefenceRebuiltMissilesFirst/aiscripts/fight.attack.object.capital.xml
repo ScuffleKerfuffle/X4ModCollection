@@ -1,47 +1,62 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <add sel="//init/create_group[@groupname='$miningtargets']" pos="after">    
+    <!-- This will insert the creation of the mine targeting group directly after the other creation calls. -->
     <create_group groupname="$targets_mine"/>
   </add>
 
+  <!-- This will insert mine-detecting logic right at the begging of the scantime block. -->
   <add sel="/aiscript/attention[@min='visible']/actions/set_value[@name='$scantime']" pos="after">
+    
     <do_if value="$turretmodes.indexof.{weaponmode.prefermissiles}">
+      <!-- Clear the mine targets group out. Note that this differs from the other logic set, where it clears it out as part of a large block. -->
       <clear_group group="$targets_mine"/>
+      <!-- Find every mine that's nearby, with the distance set to the max combat range of the turret(s) currently set to prefer missiles. -->
       <find_object groupname="$targets_mine" class="class.mine" space="this.sector" multiple="true">
         <match_distance object="this.ship" max="this.ship.maxcombatrange.{weaponmode.prefermissiles}.turrets">
           <match owner="this.ship.owner" negate="true" />
         </match_distance>
       </find_object>      
-      
+      <!-- Remove any mines that are not a threat to this ship -->
       <do_all exact="$targets_mine.count" counter="$m" reverse="true">            
         <set_value name="$mine" exact="$targets_mine.{$m}"/>
+        <!-- Remove friend/foe mines that are not targeting this ship and that do not list this ship's owning faction as an enemy. -->
         <do_if value="($mine.isfriendfoe and not $mine.foelist.indexof.{this.ship.owner})">
           <remove_from_group group="$targets_mine" object="$mine" />
         </do_if>
-        <do_else>
-          <add_to_group groupname="$targets" object="$mine"/>
-        </do_else>
+        <!-- Remove mines owned by the same faction as this ship, since they won't blow up on this ship. -->
+        <do_if value="$mine.owner == this.ship.owner">          
+          <remove_from_group group="$minetargets" object="$mine" />
+        </do_if>
+        <!-- Clean up at the end of the loop so the next loop doesn't have problems. -->
         <remove_value name="$mine" />
       </do_all>
-      <debug_text text="'Scuffle Mine Defence found %s hostile mines.'.[$targets_mine.count]" chance="100"/>
     </do_if>
   </add>
 
-  <replace sel="/aiscript/attention[@min='visible']/actions/do_if[@value='this.ship.assignedpilot and (@$targets.count or $dronetargets.count or ($miningtargets.count and this.ship == player.occupiedship))']/do_else/do_if[@value='$targets.count']/do_if[@value='$turretmodes.indexof.{weaponmode.prefermissiles}']">
+  <!-- Add mine targets as part of the OR check. This means the logic will be hit if the scan above found mines. -->
+  <replace sel="/aiscript/attention[@min='visible']/actions/do_if[@value='this.ship.assignedpilot and (@$targets.count or $dronetargets.count or ($miningtargets.count and this.ship == player.occupiedship))']/do_else/do_if[@value='$targets.count']/@value">$targets.count or $targets_mine.count</replace>
+
+  <!-- Add mine targets as part of the OR check. This means the logic will be hit if the scan above found mines. -->
+  <replace sel="/aiscript/attention[@min='visible']/actions/do_if[@value='this.ship.assignedpilot and (@$targets.count or $dronetargets.count or ($miningtargets.count and this.ship == player.occupiedship))']/@value">this.ship.assignedpilot and (@$targets.count or $targets_mine.count or $dronetargets.count or ($miningtargets.count and this.ship == player.occupiedship))</replace>
+
+  <!-- Replace the entire contents of the missiles first logic. This is an exact copy of that logic, with mines added as the second priority target set. -->
+  <replace sel="/aiscript/attention[@min='visible']/actions/do_if[@value='this.ship.assignedpilot and (@$targets.count or $targets_mine.count or $dronetargets.count or ($miningtargets.count and this.ship == player.occupiedship))']/do_else/do_if[@value='$targets.count or $targets_mine.count']/do_if[@value='$turretmodes.indexof.{weaponmode.prefermissiles}']">
     <create_list name="$loctargets"/>
     <append_list_elements name="$loctargets" group="$incomingmissiles"/>
     <append_list_elements name="$loctargets" group="$targets_mine"/>
     <append_list_elements name="$loctargets" group="$targets_fighters"/>
-    <append_list_elements name="$loctargets" group="$targets_capital"/>
-    <debug_text text="'Scuffle Mine Defence prefer missiles logic found %s total targets: %s missiles, %s mines, %s fighters, and %s capitals'.[$loctargets.count,$incomingmissiles.count,$targets_mine.count,$targets_fighters.count,$targets_capital.count]" chance="100"/>
+    <append_list_elements name="$loctargets" group="$targets_capital"/>    
     <set_value name="$locpreferred" exact="$preferredtarget"/>
+    <!-- Original check: Are missiles coming at me?! -->
     <do_if value="$incomingmissiles.count and (not $locpreferred or not $incomingmissiles.indexof.{$locpreferred})">
       <set_value name="$locpreferred" exact="$incomingmissiles.random"/>
-    </do_if>      
+    </do_if>
+    <!-- Added check: Are there mines nearby? -->
     <do_elseif value="$targets_mine.count and (not $locpreferred or not $targets_mine.indexof.{$locpreferred})">
-      <set_value name="$locpreferred" exact="$targets_mine.random"/>
-      <debug_text text="'Scuffle Mine Defence added a mine as the primary target for a turret.'" chance="100"/>
+      <set_value name="$locpreferred" exact="$targets_mine.random"/>      
     </do_elseif>
+    <!-- Call into the main program to assign targets to the turrets. Note that $locpreferred is how missiles and/or mines become the primary target, while the $loctargets is basically everything. -->
     <set_turret_targets object="this.assignedcontrolled" target="$loctargets" weaponmode="weaponmode.prefermissiles" preferredtarget="$locpreferred"/>
     <remove_value name="$loctargets"/>
   </replace>

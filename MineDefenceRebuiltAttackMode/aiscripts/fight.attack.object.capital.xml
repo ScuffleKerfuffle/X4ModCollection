@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <add sel="//init/create_group[@groupname='$miningtargets']" pos="after">
+    <!-- This will insert the creation of the mine targeting group directly after the other creation calls. -->
     <create_group groupname="$minetargets"/>
   </add>
   <!-- This will insert the clearing of the mine targets group directly after the other clear calls. -->

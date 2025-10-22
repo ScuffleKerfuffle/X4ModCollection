@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <add sel="//init/create_group[@groupname='$miningtargets']" pos="after">
+    <!-- This will insert the creation of the mine targeting group directly after the other creation calls. -->
+    <create_group groupname="$minetargets"/>
+  </add>
+
+  <!-- This replaces the check to determine whether we find enemies with a new check that includes missile defence mode. -->
+  <replace sel="/aiscript//attention[@min='visible']//do_if[@value='$turretmodes.indexof.{weaponmode.attackenemies} or $turretmodes.indexof.{weaponmode.attackcapital} or $turretmodes.indexof.{weaponmode.attackfighters} or $turretmodes.indexof.{weaponmode.prefercapital} or $turretmodes.indexof.{weaponmode.preferfighters} or $turretmodes.indexof.{weaponmode.prefermissiles} or ($defencedronemode == dronemode.attackenemies and this.assignedcontrolled.hasarmeddefencedrones) or ($turretmodes.indexof.{weaponmode.mining} and this.ship == player.occupiedship) or ($turretmodes.indexof.{weaponmode.autoassist} and $autoassist_active?) or (($defencedronemode == dronemode.autoassist) and $dronetargets.count) or @$primarytarget.canbeattacked or @$attackers.count']/@value">$turretmodes.indexof.{weaponmode.missiledefence} or $turretmodes.indexof.{weaponmode.attackenemies} or $turretmodes.indexof.{weaponmode.attackcapital} or $turretmodes.indexof.{weaponmode.attackfighters} or $turretmodes.indexof.{weaponmode.prefercapital} or $turretmodes.indexof.{weaponmode.preferfighters} or $turretmodes.indexof.{weaponmode.prefermissiles} or ($defencedronemode == dronemode.attackenemies and this.assignedcontrolled.hasarmeddefencedrones) or ($turretmodes.indexof.{weaponmode.mining} and this.ship == player.occupiedship) or ($turretmodes.indexof.{weaponmode.autoassist} and $autoassist_active?) or (($defencedronemode == dronemode.autoassist) and $dronetargets.count) or @$primarytarget.canbeattacked or @$attackers.count</replace>
+
+  <!-- This will insert mine-detecting logic right at the begging of the scantime block. -->
+  <add sel="/aiscript/attention[@min='visible']/actions/set_value[@name='$scantime']" pos="after">
+    
+    <do_if value="$turretmodes.indexof.{weaponmode.missiledefence}">
+      <!-- Clear the mine targets group out. Note that this differs from the other logic set, where it clears it out as part of a large block. -->
+      <clear_group group="$minetargets"/>
+      <!-- Find every mine that's nearby, with the distance set to the max combat range of the turret(s) currently set to missile only. -->
+      <find_object groupname="$minetargets" class="class.mine" space="this.sector" multiple="true">
+        <match_distance object="this.ship" max="this.ship.maxcombatrange.{weaponmode.missiledefence}.turrets">
+          <match owner="this.ship.owner" negate="true" />
+        </match_distance>
+      </find_object>
+      <!-- Remove any mines that are not a threat to this ship -->      
+      <do_all exact="$minetargets.count" counter="$m" reverse="true">            
+        <set_value name="$mine" exact="$minetargets.{$m}"/>
+        <!-- Remove friend/foe mines that are not targeting this ship and that do not list this ship's owning faction as an enemy. -->
+        <do_if value="($mine.isfriendfoe and not $mine.foelist.indexof.{this.ship.owner})">
+          <remove_from_group group="$minetargets" object="$mine" />
+        </do_if>
+        <!-- Remove mines owned by the same faction as this ship, since they won't blow up on this ship. -->
+        <do_if value="$mine.owner == this.ship.owner">          
+          <remove_from_group group="$minetargets" object="$mine" />
+        </do_if>
+        <!-- Clean up at the end of the loop so the next loop doesn't have problems. -->
+        <remove_value name="$mine" />
+      </do_all>
+    </do_if>
+  </add>
+
+  <!-- Add mine targets as part of the OR check. This means the logic will be hit if the scan above found mines. -->
+  <replace sel="/aiscript/attention[@min='visible']/actions//do_if[@value='$incomingmissiles.count and $turretmodes.indexof.{weaponmode.missiledefence}']/@value">($incomingmissiles.count or $minetargets.count or $attackers.count) and $turretmodes.indexof.{weaponmode.missiledefence}</replace>
+
+  <!-- Replace the entire contents of the missiles only logic. Updated to included attackers and missiles. Priority goes Missiles -> Mines -> Attackers -->
+  <replace sel="/aiscript/attention[@min='visible']/actions//do_if[@value='($incomingmissiles.count or $minetargets.count or $attackers.count) and $turretmodes.indexof.{weaponmode.missiledefence}']">    
+    <!-- Create a temporary holding list for the various potential targets. -->
+    <create_group groupname="$scuffletargetlist"/>
+    <!-- If there are missiles coming at us, target those. -->
+    <do_if value="$incomingmissiles.count">
+      <add_to_group groupname="$scuffletargetlist" group="$incomingmissiles"/>      
+    </do_if>
+    <!-- If there are no missiles coming at us, but we have mines nearby, target those. -->
+    <do_elseif value="$minetargets.count">
+      <add_to_group groupname="$scuffletargetlist" group="$minetargets"/>      
+    </do_elseif>
+    <!-- If there are no missiles or mines, but we have attackers coming at us, target those. -->
+    <do_elseif value="$attackers.count">
+      <add_to_group groupname="$scuffletargetlist" group="$attackers"/>      
+    </do_elseif>
+    <!-- If any of the above existed, set turret targets as needed. -->
+    <do_if value="$scuffletargetlist.count">
+      <!-- Try setting the local preferred target to the global one. -->
+      <set_value name="$locpreferred" exact="$preferredtarget"/>
+      <!-- if there is a local preferred target and it isn't one of the things in our current target list... -->
+      <do_if value="$locpreferred and not $scuffletargetlist.indexof.{$locpreferred}">
+        <!-- set it to a random item in the target list. -->
+        <set_value name="$locpreferred" exact="$scuffletargetlist.random"/>
+      </do_if>
+      <!-- Set all the missile only turrets' target lists to the list built above, with the preferred target from above. -->
+      <set_turret_targets object="this.ship" target="$scuffletargetlist.list" weaponmode="weaponmode.missiledefence" preferredtarget="$locpreferred"/>
+    </do_if>
+    <!-- Clean up so we don't have problems later. -->
+    <clear_group group="$scuffletargetlist"/>
+  </replace>
+  <!-- Add the combination of missile only mode and (attackers, missiles, or mines) to the selector here. -->
+  <replace sel="/aiscript//attention[@min='visible']/actions//do_if[@value='this.ship.assignedpilot and (@$targets.count or $dronetargets.count or ($miningtargets.count and this.ship == player.occupiedship))']/@value">this.ship.assignedpilot and (@$targets.count or $dronetargets.count or ($miningtargets.count and this.ship == player.occupiedship) or ($turretmodes.indexof.{weaponmode.missiledefence} and (@$incomingmissiles.count or @$minetargets.count or $attackers.count)))</replace>
+</diff>

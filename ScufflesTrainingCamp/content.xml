@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<content id="ScuffleTrainingCamp" name="Scuffle's Training Camp" description="Every player-controlled npc has a chance to improve his skills every 20 minutes by 1 point (1/3rd of a star)"  author="Scuffle Kerfuffle" version="800" date="2025-10-24" save="0" enabled="1">
+  <text language="7" name="Scuffle's Training Camp" description="Scuffle's Training Camp" author="Scuffle Kerfuffle" />
+  <text language="33" name="Scuffle's Training Camp" description="Scuffle's Training Camp" author="Scuffle Kerfuffle" />
+  <text language="34" name="Scuffle's Training Camp" description="Scuffle's Training Camp" author="Scuffle Kerfuffle" />
+  <text language="39" name="Scuffle's Training Camp" description="Scuffle's Training Camp" author="Scuffle Kerfuffle" />
+  <text language="44" name="Scuffle's Training Camp" description="Scuffle's Training Camp" author="Scuffle Kerfuffle" />
+  <text language="49" name="Scuffle's Training Camp" description="Scuffle's Training Camp" author="Scuffle Kerfuffle" />
+  <text language="55" name="Scuffle's Training Camp" description="Scuffle's Training Camp" author="Scuffle Kerfuffle" />
+  <text language="81" name="Scuffle's Training Camp" description="Scuffle's Training Camp" author="Scuffle Kerfuffle" />
+  <text language="82" name="Scuffle's Training Camp" description="Scuffle's Training Camp" author="Scuffle Kerfuffle" />
+  <text language="86" name="Scuffle's Training Camp" description="Scuffle's Training Camp" author="Scuffle Kerfuffle" />
+  <text language="88" name="Scuffle's Training Camp" description="Scuffle's Training Camp" author="Scuffle Kerfuffle" />
+</content>

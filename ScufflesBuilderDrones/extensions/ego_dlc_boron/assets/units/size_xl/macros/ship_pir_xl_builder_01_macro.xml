@@ -1,0 +1,3 @@
+<diff>
+    <replace sel="//macros/macro/properties/storage/@unit">100</replace> <!-- Original value: 100 -->
+</diff>

@@ -7,5 +7,17 @@
     <t id="4">Scuffle's Engine Mod</t>
     <t id="5">Scuffle's Ship Mod</t>
     <t id="6">Scuffle's Shield Mod</t>
+    <t id="7">Scuffle's OP Equipment Mods</t>
+    <t id="8">Automatically applies modifications when player ships were built.</t>
+    <t id="9">%s %s ships</t>
+    <t id="10">Auto-apply Mods on Build</t>
+    <t id="11">Check to enable auto-Auto-apply Mods on Build to ships.</t>
+    <t id="12">Modifications to apply</t>
+    <t id="13">Applies the selected modifications.</t>
+    <t id="14">--- Do not install modification ---</t>
+    <t id="15">Builder ships</t>
+    <t id="16">Combat &amp; Aux. %s ships</t>
+    <t id="17">Miner &amp; Scrapper %s ships</t>
+    <t id="18">Trader %s ships</t>
   </page>
 </language>

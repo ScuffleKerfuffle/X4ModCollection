@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <mdscript name="SetupScuffleMods" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="md.xsd">
   <cues>
-    <cue name="ScuffleInit" instantiate="true">
+    <cue name="ScufflesOpMods_Init" instantiate="true">
       <conditions>
         <check_any>
           <event_cue_signalled cue="md.Setup.GameStart" />          
@@ -9,7 +9,387 @@
         </check_any>
       </conditions>
       <actions>
-        <do_if value="ware.research_mod_weapon_mk3.research.unlocked">
+        <signal_cue_instantly cue="ScufflesOpMods_CreateGlobalValues" />
+        <signal_cue_instantly cue="ScufflesOpMods_AddResearch_If_Conditions_Met" />
+      </actions>
+    </cue>
+
+    <cue name="ScufflesOpMods_CompletionHook" instantiate="true">
+      <conditions>
+        <event_player_production_finished research="true"/>
+      </conditions>
+      <signal_cue_instantly cue="ScufflesOpMods_AddResearch_If_Conditions_Met" />
+    </cue>
+
+    <cue name="ScufflesOpMods_CreateGlobalValues" version="1">
+      <conditions>
+        <event_cue_signalled />
+      </conditions>
+      <actions>
+        <set_value name="global.$scufflesopmods" exact="table[]" />
+        <set_value name="global.$scufflesopmods.$mods"
+            exact="table[
+              $hull = [
+                table[$text={8675309,5}, $ware=ware.mod_ship_scufflekerfuffle],                
+                table[$text={20110,120610011}, $ware=ware.mod_ship_countermeasurecapacity_01_mk1],
+                table[$text={20110,120710011}, $ware=ware.mod_ship_deployablecapacity_01_mk1],
+                table[$text={20110,120110011}, $ware=ware.mod_ship_drag_01_mk1],
+                table[$text={20110,120120011}, $ware=ware.mod_ship_drag_01_mk2],
+                table[$text={20110,120010011}, $ware=ware.mod_ship_mass_01_mk1],
+                table[$text={20110,120020011}, $ware=ware.mod_ship_mass_01_mk2],
+                table[$text={20110,120030011}, $ware=ware.mod_ship_mass_01_mk3],
+                table[$text={20110,120210011}, $ware=ware.mod_ship_maxhull_01_mk1],
+                table[$text={20110,120410011}, $ware=ware.mod_ship_missilecapacity_01_mk1],
+                table[$text={20110,120910011}, $ware=ware.mod_ship_radarrange_01_mk1],
+                table[$text={20110,120310011}, $ware=ware.mod_ship_unitcapacity_01_mk1],
+              ],
+              $shield = [
+                table[$text={8675309,6}, $ware=ware.mod_shield_scufflekerfuffle],
+                table[$text={20110,130010011}, $ware=ware.mod_shield_capacity_01_mk1],
+                table[$text={20110,130020011}, $ware=ware.mod_shield_capacity_01_mk2],
+                table[$text={20110,130030011}, $ware=ware.mod_shield_capacity_01_mk3],
+                table[$text={20110,130030021}, $ware=ware.mod_shield_capacity_02_mk3],
+                table[$text={20110,130110011}, $ware=ware.mod_shield_rechargedelay_01_mk1],
+                table[$text={20110,130210011}, $ware=ware.mod_shield_rechargerate_01_mk1],
+                table[$text={20110,130220011}, $ware=ware.mod_shield_rechargerate_01_mk2],
+                table[$text={20110,130230011}, $ware=ware.mod_shield_rechargerate_01_mk3],
+              ],
+              $engine = [
+                table[$text={8675309,4}, $ware=ware.mod_engine_scufflekerfuffle],
+                table[$text={20110,110410011}, $ware=ware.mod_engine_boostduration_01_mk1],
+                table[$text={20110,110310011}, $ware=ware.mod_engine_boostthrust_01_mk1],
+                table[$text={20110,110320011}, $ware=ware.mod_engine_boostthrust_01_mk2],
+                table[$text={20110,110330011}, $ware=ware.mod_engine_boostthrust_01_mk3],
+                table[$text={20110,110310021}, $ware=ware.mod_engine_boostthrust_02_mk1],
+                table[$text={20110,110320021}, $ware=ware.mod_engine_boostthrust_02_mk2],
+                table[$text={20110,110010011}, $ware=ware.mod_engine_forwardthrust_01_mk1],
+                table[$text={20110,110020011}, $ware=ware.mod_engine_forwardthrust_01_mk2],
+                table[$text={20110,110030011}, $ware=ware.mod_engine_forwardthrust_01_mk3],
+                table[$text={20110,110010021}, $ware=ware.mod_engine_forwardthrust_02_mk1],
+                table[$text={20110,110020021}, $ware=ware.mod_engine_forwardthrust_02_mk2],
+                table[$text={20110,110210011}, $ware=ware.mod_engine_rotationthrust_01_mk1],
+                table[$text={20110,110230011}, $ware=ware.mod_engine_rotationthrust_01_mk3],
+                table[$text={20110,110210021}, $ware=ware.mod_engine_rotationthrust_02_mk1],
+                table[$text={20110,110110011}, $ware=ware.mod_engine_strafethrust_01_mk1],
+                table[$text={20110,110110021}, $ware=ware.mod_engine_strafethrust_02_mk1],
+                table[$text={20110,111210011}, $ware=ware.mod_engine_travelattacktime_01_mk1],
+                table[$text={20110,111410011}, $ware=ware.mod_engine_travelchargetime_01_mk1],
+                table[$text={20110,111310011}, $ware=ware.mod_engine_travelreleasetime_01_mk1],
+                table[$text={20110,111110011}, $ware=ware.mod_engine_travelstartthrust_01_mk1],
+                table[$text={20110,111010011}, $ware=ware.mod_engine_travelthrust_01_mk1],
+                table[$text={20110,111020011}, $ware=ware.mod_engine_travelthrust_01_mk2],
+                table[$text={20110,111030011}, $ware=ware.mod_engine_travelthrust_01_mk3],
+                table[$text={20110,111010021}, $ware=ware.mod_engine_travelthrust_02_mk1],
+                table[$text={20110,111020021}, $ware=ware.mod_engine_travelthrust_02_mk2],
+              ],
+              $weapon = [
+                table[$text={8675309,3}, $ware=ware.mod_weapon_scufflekerfuffle_damage],
+                table[$text={8675309,1}, $ware=ware.mod_weapon_scufflekerfuffle_surfaceelement],
+                table[$text={8675309,2}, $ware=ware.mod_weapon_scufflekerfuffle_mining],
+                table[$text={20110,100810011}, $ware=ware.mod_weapon_beamlength_01_mk1],
+                table[$text={20110,100710011}, $ware=ware.mod_weapon_chargetime_01_mk1],
+                table[$text={20110,100110011}, $ware=ware.mod_weapon_cooling_01_mk1],
+                table[$text={20110,100120011}, $ware=ware.mod_weapon_cooling_01_mk2],
+                table[$text={20110,100110021}, $ware=ware.mod_weapon_cooling_02_mk1],
+                table[$text={20110,100120021}, $ware=ware.mod_weapon_cooling_02_mk2],
+                table[$text={20110,100110031}, $ware=ware.mod_weapon_cooling_03_mk1],
+                table[$text={20110,100120031}, $ware=ware.mod_weapon_cooling_03_mk2],
+                table[$text={20110,100120041}, $ware=ware.mod_weapon_cooling_04_mk2],
+                table[$text={20110,100120051}, $ware=ware.mod_weapon_cooling_05_mk2],
+                table[$text={20110,100010011}, $ware=ware.mod_weapon_damage_01_mk1],
+                table[$text={20110,100020011}, $ware=ware.mod_weapon_damage_01_mk2],
+                table[$text={20110,100030011}, $ware=ware.mod_weapon_damage_01_mk3],
+                table[$text={20110,100010021}, $ware=ware.mod_weapon_damage_02_mk1],
+                table[$text={20110,100020021}, $ware=ware.mod_weapon_damage_02_mk2],
+                table[$text={20110,100030021}, $ware=ware.mod_weapon_damage_02_mk3],
+                table[$text={20110,100010031}, $ware=ware.mod_weapon_damage_03_mk1],
+                table[$text={20110,100020031}, $ware=ware.mod_weapon_damage_03_mk2],
+                table[$text={20110,100020041}, $ware=ware.mod_weapon_damage_04_mk2],
+                table[$text={20110,100020051}, $ware=ware.mod_weapon_damage_05_mk2],
+                table[$text={20110,100410011}, $ware=ware.mod_weapon_lifetime_01_mk1],
+                table[$text={20110,100510011}, $ware=ware.mod_weapon_mining_01_mk1],
+                table[$text={20110,100530011}, $ware=ware.mod_weapon_mining_01_mk3],
+                table[$text={20110,100210011}, $ware=ware.mod_weapon_reload_01_mk1],
+                table[$text={20110,101010011}, $ware=ware.mod_weapon_rotationspeed_01_mk1],
+                table[$text={20110,100310011}, $ware=ware.mod_weapon_speed_01_mk1],
+                table[$text={20110,100330011}, $ware=ware.mod_weapon_speed_01_mk3],
+                table[$text={20110,100610011}, $ware=ware.mod_weapon_sticktime_01_mk1],
+                table[$text={20110,100620011}, $ware=ware.mod_weapon_sticktime_01_mk2],
+                table[$text={20110,100620021}, $ware=ware.mod_weapon_sticktime_02_mk2],
+                table[$text={20110,100630021}, $ware=ware.mod_weapon_sticktime_03_mk2],
+                table[$text={20110,101110011}, $ware=ware.mod_weapon_surfaceelement_01_mk1],
+                table[$text={20110,101120011}, $ware=ware.mod_weapon_surfaceelement_01_mk2],
+                table[$text={20110,101130011}, $ware=ware.mod_weapon_surfaceelement_01_mk3],
+              ]
+            ]" />
+        <set_value name="global.$scufflesopmods.$options"
+            exact="table[
+              $combat = table[
+                $xl = table[
+                  $fit = 0,
+                  $mods = table[
+                    $hull   = global.$scufflesopmods.$mods.$hull,
+                    $engine = global.$scufflesopmods.$mods.$engine,
+                    $shield = global.$scufflesopmods.$mods.$shield,
+                    $weapon = global.$scufflesopmods.$mods.$weapon
+                  ]
+                ],
+                $l = table[
+                  $fit = 0,
+                  $mods = table[
+                    $hull   = global.$scufflesopmods.$mods.$hull,
+                    $engine = global.$scufflesopmods.$mods.$engine,
+                    $shield = global.$scufflesopmods.$mods.$shield,
+                    $weapon = global.$scufflesopmods.$mods.$weapon
+                  ]
+                ],
+                $m = table[
+                  $fit = 0,
+                  $mods = table[
+                    $hull   = global.$scufflesopmods.$mods.$hull,
+                    $engine = global.$scufflesopmods.$mods.$engine,
+                    $shield = global.$scufflesopmods.$mods.$shield,
+                    $weapon = global.$scufflesopmods.$mods.$weapon
+                  ]
+                ],
+                $s = table[
+                  $fit = 0,
+                  $mods = table[
+                    $hull   = global.$scufflesopmods.$mods.$hull,
+                    $engine = global.$scufflesopmods.$mods.$engine,
+                    $shield = global.$scufflesopmods.$mods.$shield,
+                    $weapon = global.$scufflesopmods.$mods.$weapon
+                  ]
+                ],
+              ],
+              $trading = table[
+                $xl = table[
+                  $fit = 0,
+                  $mods = table[
+                    $hull   = global.$scufflesopmods.$mods.$hull,
+                    $engine = global.$scufflesopmods.$mods.$engine,
+                    $shield = global.$scufflesopmods.$mods.$shield,
+                    $weapon = global.$scufflesopmods.$mods.$weapon
+                  ]
+                ],
+                $l = table[
+                  $fit = 0,
+                  $mods = table[
+                    $hull   = global.$scufflesopmods.$mods.$hull,
+                    $engine = global.$scufflesopmods.$mods.$engine,
+                    $shield = global.$scufflesopmods.$mods.$shield,
+                    $weapon = global.$scufflesopmods.$mods.$weapon
+                  ]
+                ],
+                $m = table[
+                  $fit = 0,
+                  $mods = table[
+                    $hull   = global.$scufflesopmods.$mods.$hull,
+                    $engine = global.$scufflesopmods.$mods.$engine,
+                    $shield = global.$scufflesopmods.$mods.$shield,
+                    $weapon = global.$scufflesopmods.$mods.$weapon
+                  ]
+                ],
+                $s = table[
+                  $fit = 0,
+                  $mods = table[
+                    $hull   = global.$scufflesopmods.$mods.$hull,
+                    $engine = global.$scufflesopmods.$mods.$engine,
+                    $shield = global.$scufflesopmods.$mods.$shield,
+                    $weapon = global.$scufflesopmods.$mods.$weapon
+                  ]
+                ],
+              ],
+              $mining = table[
+                $xl = table[
+                  $fit = 0,
+                  $mods = table[
+                    $hull   = global.$scufflesopmods.$mods.$hull,
+                    $engine = global.$scufflesopmods.$mods.$engine,
+                    $shield = global.$scufflesopmods.$mods.$shield,
+                    $weapon = global.$scufflesopmods.$mods.$weapon
+                  ]
+                ],
+                $l = table[
+                  $fit = 0,
+                  $mods = table[
+                    $hull   = global.$scufflesopmods.$mods.$hull,
+                    $engine = global.$scufflesopmods.$mods.$engine,
+                    $shield = global.$scufflesopmods.$mods.$shield,
+                    $weapon = global.$scufflesopmods.$mods.$weapon
+                  ]
+                ],
+                $m = table[
+                  $fit = 0,
+                  $mods = table[
+                    $hull   = global.$scufflesopmods.$mods.$hull,
+                    $engine = global.$scufflesopmods.$mods.$engine,
+                    $shield = global.$scufflesopmods.$mods.$shield,
+                    $weapon = global.$scufflesopmods.$mods.$weapon
+                  ]
+                ],
+                $s = table[
+                  $fit = 0,
+                  $mods = table[
+                    $hull   = global.$scufflesopmods.$mods.$hull,
+                    $engine = global.$scufflesopmods.$mods.$engine,
+                    $shield = global.$scufflesopmods.$mods.$shield,
+                    $weapon = global.$scufflesopmods.$mods.$weapon
+                  ]
+                ],
+              ],
+              $builder = table[
+                $xl = table[
+                  $fit = 0,
+                  $mods = table[
+                    $hull   = global.$scufflesopmods.$mods.$hull,
+                    $engine = global.$scufflesopmods.$mods.$engine,
+                    $shield = global.$scufflesopmods.$mods.$shield,
+                    $weapon = global.$scufflesopmods.$mods.$weapon
+                  ]
+                ]
+              ]
+            ]" />
+        <do_if value="not @player.entity.$scufflesopmods">
+          <set_value name="player.entity.$scufflesopmods"
+              exact="table[
+                $combat = table[
+                  $xl = table[
+                    $fit = 0,
+                    $mods = table[
+                      $hull   = 1,
+                      $engine = 1,
+                      $shield = 1,
+                      $weapon = 1
+                    ]
+                  ],
+                  $l = table[
+                    $fit = 0,
+                    $mods = table[
+                      $hull   = 1,
+                      $engine = 1,
+                      $shield = 1,
+                      $weapon = 1
+                    ]
+                  ],
+                  $m = table[
+                    $fit = 0,
+                    $mods = table[
+                      $hull   = 1,
+                      $engine = 1,
+                      $shield = 1,
+                      $weapon = 1
+                    ]
+                  ],
+                  $s = table[
+                    $fit = 0,
+                    $mods = table[
+                      $hull   = 1,
+                      $engine = 1,
+                      $shield = 1,
+                      $weapon = 1
+                    ]
+                  ],
+                ],
+                $trading = table[
+                  $xl = table[
+                    $fit = 0,
+                    $mods = table[
+                      $hull   = 1,
+                      $engine = 1,
+                      $shield = 1,
+                      $weapon = 1
+                    ]
+                  ],
+                  $l = table[
+                    $fit = 0,
+                    $mods = table[
+                      $hull   = 1,
+                      $engine = 1,
+                      $shield = 1,
+                      $weapon = 1
+                    ]
+                  ],
+                  $m = table[
+                    $fit = 0,
+                    $mods = table[
+                      $hull   = 1,
+                      $engine = 1,
+                      $shield = 1,
+                      $weapon = 1
+                    ]
+                  ],
+                  $s = table[
+                    $fit = 0,
+                    $mods = table[
+                      $hull   = 1,
+                      $engine = 1,
+                      $shield = 1,
+                      $weapon = 1
+                    ]
+                  ],
+                ],
+                $mining = table[
+                  $xl = table[
+                    $fit = 0,
+                    $mods = table[
+                      $hull   = 1,
+                      $engine = 1,
+                      $shield = 1,
+                      $weapon = 1
+                    ]
+                  ],
+                  $l = table[
+                    $fit = 0,
+                    $mods = table[
+                      $hull   = 1,
+                      $engine = 1,
+                      $shield = 1,
+                      $weapon = 1
+                    ]
+                  ],
+                  $m = table[
+                    $fit = 0,
+                    $mods = table[
+                      $hull   = 1,
+                      $engine = 1,
+                      $shield = 1,
+                      $weapon = 1
+                    ]
+                  ],
+                  $s = table[
+                    $fit = 0,
+                    $mods = table[
+                      $hull   = 1,
+                      $engine = 1,
+                      $shield = 1,
+                      $weapon = 1
+                    ]
+                  ],
+                ],
+                $builder = table[
+                  $xl = table[
+                    $fit = 0,
+                    $mods = table[
+                      $hull   = 1,
+                      $engine = 1,
+                      $shield = 1,
+                      $weapon = 1
+                    ]
+                  ]
+                ]
+              ]" />
+        </do_if>
+      </actions>
+    </cue>
+  </cues>
+
+  <cue name="ScufflesOpMods_AddResearch_If_Conditions_Met">
+    <conditions>
+      <event_cue_signalled />
+    </conditions>
+    <actions>
+      <do_if value="ware.research_mod_weapon_mk3.research.unlocked">
           <add_blueprints wares="ware.mod_weapon_scufflekerfuffle_surfaceelement" />
           <add_blueprints wares="ware.mod_weapon_scufflekerfuffle_mining" />
           <add_blueprints wares="ware.mod_weapon_scufflekerfuffle_damage" />
@@ -23,29 +403,6 @@
         <do_if value="ware.research_mod_shield_mk3.research.unlocked">
           <add_blueprints wares="ware.mod_shield_scufflekerfuffle" />
         </do_if>
-      </actions>      
-    </cue>
-    <cue name="ScuffleResearch" instantiate="true">
-      <conditions>
-        <event_player_production_finished research="true"/>
-      </conditions>
-      <actions>
-        <debug_text text="'Scuffle Mod Research_Completed Entered.'" />
-        <do_if value="event.param2 == ware.research_mod_engine_mk3">              
-          <add_blueprints wares="ware.mod_engine_scufflekerfuffle" />
-        </do_if>
-        <do_elseif value="event.param2 == ware.research_mod_shield_mk3">              
-          <add_blueprints wares="ware.mod_shield_scufflekerfuffle" />
-        </do_elseif>
-        <do_elseif value="event.param2 == ware.research_mod_weapon_mk3">              
-          <add_blueprints wares="ware.mod_weapon_scufflekerfuffle_surfaceelement" />
-          <add_blueprints wares="ware.mod_weapon_scufflekerfuffle_mining" />
-          <add_blueprints wares="ware.mod_weapon_scufflekerfuffle_damage" />
-        </do_elseif>
-        <do_elseif value="event.param2 == ware.research_mod_ship_mk3">              
-          <add_blueprints wares="ware.mod_ship_scufflekerfuffle" />
-        </do_elseif>
-      </actions>
-    </cue>
-  </cues>
+    </actions>
+  </cue>
 </mdscript>

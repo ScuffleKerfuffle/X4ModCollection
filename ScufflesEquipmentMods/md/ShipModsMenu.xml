@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="ship_mods_menu"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../src/md/md.xsd">
+  <cues>
+    <cue name="Create_Options_Menu" instantiate="true">
+      <conditions>
+        <event_cue_signalled cue="md.Simple_Menu_Options.Reloaded" />
+      </conditions>
+      <actions>
+        <signal_cue_instantly cue="md.Simple_Menu_API.Register_Options_Menu"
+            param="table[
+              $id      = 'scuffle_mod_menu',
+              $title   = {8675309,7},
+              $onOpen  = Create_Menu,
+              $columns = 3,
+            ]" />
+        <reset_cue cue="this" />
+      </actions>
+    </cue>
+
+    <cue name="Create_Menu"
+        instantiate="true"
+        namespace="this"
+        comment="Create menu items.">
+      <conditions>
+        <event_cue_signalled />
+      </conditions>
+      <actions>
+        <!-- Heading line -->
+        <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+        <signal_cue_instantly cue="md.Simple_Menu_API.Make_Text"
+            param="table[
+              $col     = 1,
+              $colSpan = 3,
+              $text    = {8675309,8}
+            ]" />
+        <!-- Fitting options -->
+        <do_for_each name="$role"
+            valuename="$sizes"
+            in="global.$scufflesopmods.$options">
+          <do_for_each name="$size" valuename="$rows" in="$sizes">
+            <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+            <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+            <signal_cue_instantly cue="Create_Menu_Group_Heading"
+                param="table[$role = $role, $size = $size]" />
+            <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+            <signal_cue_instantly cue="md.Simple_Menu_API.Make_Text"
+                param="table[$col = 1, $text = {8675309,10}]" />
+            <signal_cue_instantly cue="md.Simple_Menu_API.Make_CheckBox"
+                param="table[
+                  $id = 'scuffle_mod_Checkbox_Fit_Combat_XL',
+                  $checked = player.entity.$scufflesopmods.{$role}.{$size}.$fit,
+                  $col = 2,
+                  $colSpan = 2,
+                  $width = 'Helper.standardButtonHeight',
+                  $height = 'Helper.standardButtonHeight',
+                  $mouseOverText = {8675309,11},
+                  $echo = table[$role = $role, $size = $size],
+                  $onClick = OnChange_Fitting
+                ]" />
+            <do_for_each name="$component" valuename="$mods" in="$rows.$mods">
+              <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+              <do_if value="$component" exact="'$engine'">
+                <signal_cue_instantly cue="md.Simple_Menu_API.Make_Text"
+                    param="table[$col = 1, $text = {8675309,12}]" />
+              </do_if>
+              <create_list name="$options" />
+              <append_to_list name="$options"
+                  exact="table[$text={8675309,14}]" />
+              <append_list_elements name="$options" other="$mods" />
+              <signal_cue_instantly cue="md.Simple_Menu_API.Make_Dropdown"
+                  param="table[
+                    $col = 2,
+                    $colSpan = 2,
+                    $options = $options,
+                    $startOption = player.entity.$scufflesopmods.{$role}.{$size}.$mods.{$component},
+                    $mouseOverText = {8675309,12},
+                    $echo = table[
+                      $role      = $role,
+                      $size      = $size,
+                      $component = $component
+                    ],
+                    $onDropDownConfirmed = OnChange_Mod
+                  ]" />
+            </do_for_each>
+          </do_for_each>
+        </do_for_each>
+      </actions>
+    </cue>
+
+    <cue name="Create_Menu_Group_Heading" instantiate="true">
+      <conditions>
+        <event_cue_signalled />
+      </conditions>
+      <actions>
+        <set_value name="$role" exact="{8675309,16}" />
+        <do_if value="event.param.$role" exact="'$builder'">
+          <set_value name="$role" exact="{8675309,15}" />
+        </do_if>
+        <do_elseif value="event.param.$role" exact="'$mining'">
+          <set_value name="$role" exact="{8675309,17}" />
+        </do_elseif>
+        <do_elseif value="event.param.$role" exact="'$trading'">
+          <set_value name="$role" exact="{8675309,18}" />
+        </do_elseif>
+        <set_value name="$size" exact="'XL'" />
+        <do_if value="event.param.$size" exact="'$l'">
+          <set_value name="$size" exact="'L'" />
+        </do_if>
+        <do_elseif value="event.param.$size" exact="'$m'">
+          <set_value name="$size" exact="'M'" />
+        </do_elseif>
+        <do_elseif value="event.param.$size" exact="'$s'">
+          <set_value name="$size" exact="'S'" />
+        </do_elseif>
+        <signal_cue_instantly cue="md.Simple_Menu_API.Make_Text"
+            param="table[
+              $col = 1,
+              $colSpan = 3,
+              $text = $role.[$size],
+              $titleColor = 'Helper.defaultSimpleBackgroundColor'
+            ]" />
+      </actions>
+    </cue>
+
+    <cue name="OnChange_Fitting"
+        instantiate="true"
+        namespace="this">
+      <conditions>
+        <event_cue_signalled />
+      </conditions>
+      <actions>
+        <set_value name="player.entity.$scufflesopmods.{event.param.$echo.$role}.{event.param.$echo.$size}.$fit"
+            exact="event.param.$checked" />
+      </actions>
+    </cue>
+
+    <cue name="OnChange_Mod"
+        instantiate="true"
+        namespace="this">
+      <conditions>
+        <event_cue_signalled />
+      </conditions>
+      <actions>
+        <set_value name="player.entity.$scufflesopmods.{event.param.$echo.$role}.{event.param.$echo.$size}.$mods.{event.param.$echo.$component}"
+            exact="event.param.$option_index" />
+      </actions>
+    </cue>
+  </cues>
+</mdscript>
